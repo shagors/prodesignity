@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
 import HeroBadges from "./HeroBadges";
@@ -16,10 +16,33 @@ export default function HeroVideoPlayer({
 }: HeroVideoPlayerProps) {
     const [isPlaying, setIsPlaying] = useState(false);
 
+    const videoAreaRef = useRef<HTMLDivElement>(null);
+
+    // user click outside the video area to close the video
+    const handleClickOutside = (event: MouseEvent) => {
+        if (
+            videoAreaRef.current &&
+            !videoAreaRef.current.contains(event.target as Node)
+        ) {
+            setIsPlaying(false);
+        }
+    };
+
+    // Add event listener for clicks outside the video area
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
         <div className="lg:col-span-6 relative w-full max-w-lg mx-auto lg:max-w-none">
             {/* Video Container */}
-            <div className="relative aspect-16/10 w-full rounded-3xl overflow-hidden bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xl group">
+            <div
+                ref={videoAreaRef}
+                className="relative aspect-16/10 w-full rounded-3xl overflow-hidden bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xl group"
+            >
                 {isPlaying ? (
                     <iframe
                         src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`}
