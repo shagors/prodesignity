@@ -1,23 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 
 export default function ThemeToggle() {
     const { resolvedTheme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) {
-        return (
-            <div className="w-10 h-10 rounded-xl bg-card-bg dark:bg-dark-card-bg border border-border-color dark:border-dark-border-color" />
-        );
-    }
 
     const isDark = resolvedTheme === "dark";
 

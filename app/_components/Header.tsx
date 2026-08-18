@@ -20,7 +20,7 @@ export default function Header() {
                         <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-linear-to-tr from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue p-0.5 shadow-md group-hover:scale-105 transition-transform duration-200">
                             <div className="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] flex items-center justify-center overflow-hidden p-1">
                                 <Image
-                                    src="/assets/logos/prodesignity-logo.png"
+                                    src="/assets/logo/prodesignity-logo.png"
                                     alt="ProDesignity Logo"
                                     width={38}
                                     height={38}
@@ -36,7 +36,7 @@ export default function Header() {
                                     Designity
                                 </span>
                             </span>
-                            <span className="text-[10px] font-bold tracking-widest uppercase text-brand-orange dark:text-dark-brand-orange leading-tight">
+                            <span className="text-[10px] font-bold tracking-widest uppercase text-brand-orange dark:text-white/70 leading-tight">
                                 Creative Agency
                             </span>
                         </div>
@@ -48,7 +48,7 @@ export default function Header() {
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-dark-primary hover:bg-slate-100/70 dark:hover:bg-slate-800/50 rounded-lg transition-all"
+                                className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/50 rounded-lg transition-all"
                             >
                                 {link.name}
                             </Link>
@@ -61,7 +61,7 @@ export default function Header() {
 
                         <Link
                             href="/contact"
-                            className="hidden md:inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-brand-violet to-brand-blue hover:from-primary-hover hover:to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue dark:hover:from-dark-primary-hover dark:hover:to-dark-brand-blue rounded-xl shadow-md transition-all duration-200"
+                            className="hidden md:inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-linear-to-r from-brand-violet to-brand-blue hover:from-primary-hover hover:to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue dark:hover:from-dark-primary-hover dark:hover:to-dark-brand-blue rounded-xl shadow-md transition-all duration-200"
                         >
                             Get Started
                         </Link>

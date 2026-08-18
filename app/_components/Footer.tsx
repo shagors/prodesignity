@@ -26,7 +26,7 @@ export default function Footer() {
                             <div className="relative w-9 h-9 rounded-lg bg-linear-to-tr from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue p-0.5 shadow-md">
                                 <div className="w-full h-full bg-white dark:bg-slate-900 rounded-md flex items-center justify-center overflow-hidden p-1">
                                     <Image
-                                        src="/assets/logo.png"
+                                        src="/assets/logo/prodesignity-logo.png"
                                         alt="ProDesignity Logo"
                                         width={32}
                                         height={32}

@@ -54,7 +54,7 @@ export default function MobileMenu({ navLinks }: { navLinks: NavLink[] }) {
                             <Link
                                 href="/contact"
                                 onClick={() => setIsOpen(false)}
-                                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue shadow-md transition-all"
+                                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-white bg-linear-to-r from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue shadow-md transition-all"
                             >
                                 <span>Get Started</span>
                                 <ArrowRight className="w-4 h-4" />
