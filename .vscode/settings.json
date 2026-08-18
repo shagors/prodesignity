@@ -1,4 +1,10 @@
 {
     "css.lint.unknownAtRules": "ignore",
-    "cSpell.words": ["Designity", "OPPO", "prodesignity", "Wayfair"]
+    "cSpell.words": [
+        "Designity",
+        "moodboards",
+        "OPPO",
+        "prodesignity",
+        "Wayfair"
+    ]
 }
