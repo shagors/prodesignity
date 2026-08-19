@@ -13,7 +13,7 @@ const navLinks = [
 export default function Header() {
     return (
         <header className="sticky top-0 z-40 w-full bg-card-bg dark:bg-dark-card-bg backdrop-blur-md border-b border-border-color dark:border-dark-border-color transition-colors duration-300 font-sans">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     {/* Brand Logo & Name */}
                     <Link href="/" className="flex items-center gap-3 group">
