@@ -13,6 +13,7 @@ import {
     Smartphone,
     Film,
 } from "lucide-react";
+import { HeaderPill } from "@/components/HeaderPill";
 
 interface ServiceCard {
     icon: typeof MonitorPlay;
@@ -173,13 +174,11 @@ export default function ServicesMarquee() {
 
             {/* Section Header */}
             <div className="max-w-7xl mx-auto px-4 text-center mb-14 sm:mb-16 relative z-10">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-border-color dark:border-dark-border-color text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-4">
-                    Global Services
-                </div>
+                <HeaderPill text="Global Services" className="sm:mb-8" />
 
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
                     Types of Work{" "}
-                    <span className="bg-linear-to-r from-emerald-500 via-teal-400 to-cyan-500 dark:from-emerald-400 dark:via-teal-300 dark:to-cyan-400 bg-clip-text text-transparent">
+                    <span className="bg-linear-to-r from-primary/70 via-primary/65 to-cyan-500 dark:from-primary/65 dark:via-primary/60 dark:to-cyan-400 bg-clip-text text-transparent">
                         We Do
                     </span>
                 </h2>
