@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
                 hostname: "i.ytimg.com",
                 port: "",
             },
+            {
+                protocol: "https",
+                hostname: "images.unsplash.com",
+                port: "",
+            },
         ],
     },
 };

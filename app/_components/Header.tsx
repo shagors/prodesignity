@@ -15,11 +15,39 @@ export default function Header() {
         <header className="sticky top-0 z-40 w-full bg-card-bg dark:bg-dark-card-bg backdrop-blur-md border-b border-border-color dark:border-dark-border-color transition-colors duration-300 font-sans">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
-                    {/* Brand Logo */}
+                    {/* Brand Logo & Name */}
+                    {/* <Link href="/" className="flex items-center gap-3 group">
+                        <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-linear-to-tr from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue p-0.5 shadow-md group-hover:scale-105 transition-transform duration-200">
+                            <div className="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] flex items-center justify-center overflow-hidden p-1">
+                                <Image
+                                    src="/assets/logo/prodesignity-logo.png"
+                                    alt="ProDesignity Logo"
+                                    width={38}
+                                    height={38}
+                                    className="object-contain"
+                                    priority
+                                />
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white leading-none">
+                                Pro
+                                <span className="bg-linear-to-r from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue bg-clip-text text-transparent">
+                                    Designity
+                                </span>
+                            </span>
+
+                            <span className="text-[10px] font-bold tracking-widest uppercase text-brand-orange dark:text-white/70 leading-tight">
+                                Creative Agency
+                            </span>
+                        </div>
+                    </Link> */}
+
+                    {/* Brand Logo dark mode and light mode image */}
                     <Link href="/" className="flex items-center group">
                         <div className="relative h-8 sm:h-9 md:h-10 w-auto transition-transform duration-200 group-hover:scale-105">
                             <Image
-                                src="/assets/logo/prodesignity-logo-dark.png"
+                                src="/assets/logo/prodesinity-logo-dark.svg"
                                 alt="ProDesignity Logo"
                                 width={180}
                                 height={40}
@@ -27,7 +55,7 @@ export default function Header() {
                                 priority
                             />
                             <Image
-                                src="/assets/logo/prodesignity-logo-light.png"
+                                src="/assets/logo/prodesinity-logo-light.svg"
                                 alt="ProDesignity Logo"
                                 width={180}
                                 height={40}
