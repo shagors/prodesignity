@@ -51,15 +51,15 @@ export default function Header() {
                                 alt="ProDesignity Logo"
                                 width={180}
                                 height={40}
-                                className="h-full w-auto object-contain hidden dark:block"
+                                className=" h-0 w-0 dark:h-full dark:w-auto object-contain scale-0 dark:scale-100 transition-transform duration-200"
                                 priority
                             />
                             <Image
-                                src="/assets/logo/prodesinity-logo-light.svg"
+                                src="/assets/logo/prodesignity-logo-light.svg"
                                 alt="ProDesignity Logo"
                                 width={180}
                                 height={40}
-                                className="h-full w-auto object-contain dark:hidden block"
+                                className="h-full w-auto object-contain dark:scale-0 scale-100 dark:w-0 dark:h-0 transition-transform duration-200"
                                 priority
                             />
                         </div>
