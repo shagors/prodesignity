@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import ProjectSlide from "./ProjectSlide";
 import CarouselControls from "./CarouselControls";
+import { HeaderPill } from "@/components/HeaderPill";
 
 export type Project = {
     id: string;
@@ -106,10 +107,7 @@ export default function RecentProjects({
 
             {/* Section Header */}
             <div className="relative mx-auto max-w-3xl px-6 text-center z-10">
-                <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-primary/30 px-4 py-1.5 text-xs font-bold tracking-widest text-primary/85 dark:text-primary/80 uppercase shadow-sm">
-                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                    {eyebrow}
-                </div>
+                <HeaderPill text={eyebrow} className="sm:mb-8" />
 
                 <h2
                     id="recent-projects-heading"
