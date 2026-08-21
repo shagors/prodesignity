@@ -9,7 +9,7 @@ export default function HeroSection() {
             <div className="absolute top-1/2 right-10 w-64 h-64 md:w-112.5 md:h-112.5 bg-blue-600/10 dark:bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
                     <HeroVideoPlayer
                         videoId="dQw4w9WgXcQ"
                         thumbnailSrc="/assets/images/Prodesignity-hero-images.jpg"

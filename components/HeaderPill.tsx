@@ -17,7 +17,7 @@ export function HeaderPill({
     inlineDivClassName,
 }: SectionBadgeProps) {
     return (
-        <div className={cn("flex justify-center mb-12 sm:mb-16", className)}>
+        <div className={cn("flex justify-center mb-8 sm:mb-8", className)}>
             <div
                 className={cn(
                     "inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary/85 dark:text-primary/80 text-xs sm:text-sm font-bold tracking-widest uppercase shadow-sm",

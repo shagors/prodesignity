@@ -39,7 +39,7 @@ export default function PricingSection() {
                 </div>
 
                 {/* 3-Column Pricing Cards Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-10 max-w-7xl mx-auto items-stretch">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
                     {PRICING_PLANS.map((plan) => {
                         const isPopular = plan.isPopular;
 
