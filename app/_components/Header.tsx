@@ -3,9 +3,13 @@ import Image from "next/image";
 import ThemeToggle from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
 
+import darkModeLogo from "@/public/assets/logo/prodesinity-logo-dark.svg";
+import lightModeLogo from "@/public/assets/logo/prodesignity-logo-light.svg";
+
 const navLinks = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/services" },
+    { name: "Pricing", href: "#pricing" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
 ];
@@ -13,10 +17,10 @@ const navLinks = [
 export default function Header() {
     return (
         <header className="sticky top-0 z-40 w-full bg-card-bg dark:bg-dark-card-bg backdrop-blur-md border-b border-border-color dark:border-dark-border-color transition-colors duration-300 font-sans">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     {/* Brand Logo & Name */}
-                    <Link href="/" className="flex items-center gap-3 group">
+                    {/* <Link href="/" className="flex items-center gap-3 group">
                         <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-linear-to-tr from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue p-0.5 shadow-md group-hover:scale-105 transition-transform duration-200">
                             <div className="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] flex items-center justify-center overflow-hidden p-1">
                                 <Image
@@ -36,9 +40,34 @@ export default function Header() {
                                     Designity
                                 </span>
                             </span>
+
                             <span className="text-[10px] font-bold tracking-widest uppercase text-brand-orange dark:text-white/70 leading-tight">
                                 Creative Agency
                             </span>
+                        </div>
+                    </Link> */}
+
+                    {/* Brand Logo dark mode and light mode image */}
+                    <Link
+                        href="/"
+                        className="flex items-center group select-none"
+                    >
+                        <div className="relative h-8 sm:h-9 md:h-10 w-auto transition-transform duration-200 group-hover:scale-105">
+                            {/* Dark Mode SVG Logo */}
+                            <Image
+                                src={darkModeLogo}
+                                alt="ProDesignity Logo"
+                                className=" h-0 w-0 dark:h-full dark:w-auto object-contain scale-0 dark:scale-100 transition-transform duration-200"
+                                priority
+                            />
+
+                            {/* Light Mode SVG Logo */}
+                            <Image
+                                src={lightModeLogo}
+                                alt="ProDesignity Logo"
+                                className="h-full w-auto object-contain dark:scale-0 scale-100 dark:w-0 dark:h-0 transition-transform duration-200"
+                                priority
+                            />
                         </div>
                     </Link>
 
@@ -48,6 +77,7 @@ export default function Header() {
                             <Link
                                 key={link.name}
                                 href={link.href}
+                                scroll={true}
                                 className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/50 rounded-lg transition-all"
                             >
                                 {link.name}

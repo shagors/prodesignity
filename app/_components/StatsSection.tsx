@@ -1,3 +1,4 @@
+import { HeaderPill } from "@/components/HeaderPill";
 import { Video, Users, Award, ThumbsUp } from "lucide-react";
 
 interface StatItem {
@@ -61,17 +62,14 @@ const stats: StatItem[] = [
 
 export default function StatsSection() {
     return (
-        <section className="relative py-20 lg:py-28 bg-white dark:bg-[#070B14] border-b border-border-color dark:border-dark-border-color transition-colors duration-300 font-sans overflow-hidden">
+        <section className="relative py-20 lg:py-28 bg-white dark:bg-[#070B14] border-b border-border-color dark:border-dark-border-color transition-colors duration-300 font-sans overflow-hidden ">
             {/* Subtle Background Radial Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-87.5 bg-primary/5 dark:bg-dark-primary/10 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative px-4 sm:px-6 lg:px-8 container mx-auto">
                 {/* Top Header Pill */}
                 <div className="flex justify-center mb-12 sm:mb-16">
-                    <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm font-bold tracking-widest uppercase shadow-sm">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        Our Numbers Speak
-                    </div>
+                    <HeaderPill text="Our Numbers Speak" />
                 </div>
 
                 {/* 4-Column Responsive Grid */}
