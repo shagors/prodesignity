@@ -13,6 +13,7 @@ import {
     Smartphone,
     Film,
 } from "lucide-react";
+import { HeaderPill } from "@/components/HeaderPill";
 
 interface ServiceCard {
     icon: typeof MonitorPlay;
@@ -131,7 +132,7 @@ function CardItem({ service }: { service: ServiceCard }) {
     const Icon = service.icon;
     return (
         <div
-            className={`group relative w-70 sm:w-[320px] md:w-85 h-55 sm:h-60 p-6 sm:p-7 rounded-3xl bg-card-bg dark:bg-dark-card-bg border border-border-color dark:border-dark-border-color ${service.accentBorder} shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between mx-3 select-none`}
+            className={`group relative w-55 md:w-60 h-55 sm:h-60 p-6 sm:p-7 rounded-3xl bg-card-bg dark:bg-dark-card-bg border border-border-color dark:border-dark-border-color ${service.accentBorder} shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between mx-3 select-none`}
         >
             <div>
                 {/* Icon Frame */}
@@ -162,70 +163,83 @@ function CardItem({ service }: { service: ServiceCard }) {
 
 export default function ServicesMarquee() {
     return (
-        <section className="relative py-20 lg:py-28 bg-white dark:bg-[#070B14] border-b border-border-color dark:border-dark-border-color overflow-hidden select-none transition-colors duration-300 font-sans">
+        <section className="relative py-20 lg:py-28 bg-white dark:bg-[#070B14] border-b border-border-color dark:border-dark-border-color overflow-hidden select-none transition-colors duration-300 font-sans px-4 sm:px-6 lg:px-8">
             {/* Background Ambient Glows */}
             <div className="absolute top-1/3 left-10 w-96 h-96 bg-brand-violet/10 dark:bg-dark-brand-violet/15 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-blue/10 dark:bg-dark-brand-blue/15 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Side Fade Gradient Masks */}
-            <div className="absolute top-0 bottom-0 left-0 w-20 sm:w-44 bg-linear-to-r from-white dark:from-[#070B14] to-transparent z-20 pointer-events-none" />
-            <div className="absolute top-0 bottom-0 right-0 w-20 sm:w-44 bg-linear-to-l from-white dark:from-[#070B14] to-transparent z-20 pointer-events-none" />
+            <div className="container mx-auto relative">
+                {/* Section Header */}
+                <div className="max-w-7xl mx-auto px-4 text-center mb-14 sm:mb-16 relative z-10">
+                    <HeaderPill text="Global Services" className="sm:mb-8" />
 
-            {/* Section Header */}
-            <div className="max-w-7xl mx-auto px-4 text-center mb-14 sm:mb-16 relative z-10">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-border-color dark:border-dark-border-color text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-4">
-                    Global Services
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                        Types of Work{" "}
+                        <span className="bg-linear-to-r from-primary/70 via-primary/65 to-cyan-500 dark:from-primary/65 dark:via-primary/60 dark:to-cyan-400 bg-clip-text text-transparent">
+                            We Do
+                        </span>
+                    </h2>
+
+                    <p className="mt-3 text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
+                        We provide a wide range of digital services to help your
+                        business grow online.
+                    </p>
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-                    Types of Work{" "}
-                    <span className="bg-linear-to-r from-emerald-500 via-teal-400 to-cyan-500 dark:from-emerald-400 dark:via-teal-300 dark:to-cyan-400 bg-clip-text text-transparent">
-                        We Do
-                    </span>
-                </h2>
-
-                <p className="mt-3 text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
-                    We provide a wide range of digital services to help your
-                    business grow online.
-                </p>
-            </div>
-
-            {/* Marquee Row 1 (Moving Right) */}
-            <div className="mb-6 ">
-                <Marquee
-                    direction="right"
-                    speed={35}
-                    gradient={false}
-                    pauseOnHover={true}
-                    pauseOnClick={true}
-                    className="overflow-hidden py-2"
+                {/* Marquee Wrapper with Universal CSS Alpha Mask (No color hardcoding) */}
+                <div
+                    className="relative w-full"
+                    style={{
+                        maskImage:
+                            "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+                        WebkitMaskImage:
+                            "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+                    }}
                 >
-                    {topRowServices.map((service, index) => (
-                        <CardItem
-                            key={`top-${service.title}-${index}`}
-                            service={service}
-                        />
-                    ))}
-                </Marquee>
-            </div>
+                    {/* Marquee Row 1 (Moving Right) */}
+                    <div className="mb-6">
+                        <Marquee
+                            direction="right"
+                            speed={35}
+                            gradient={false}
+                            autoFill={
+                                true
+                            } /* <-- Prevents gaps across all screen sizes */
+                            pauseOnHover={true}
+                            pauseOnClick={true}
+                            className="overflow-hidden py-2"
+                        >
+                            {topRowServices.map((service, index) => (
+                                <CardItem
+                                    key={`top-${service.title}-${index}`}
+                                    service={service}
+                                />
+                            ))}
+                        </Marquee>
+                    </div>
 
-            {/* Marquee Row 2 (Moving Right) */}
-            <div className="">
-                <Marquee
-                    direction="left"
-                    speed={28}
-                    gradient={false}
-                    pauseOnHover={true}
-                    pauseOnClick={true}
-                    className="overflow-hidden py-2"
-                >
-                    {bottomRowServices.map((service, index) => (
-                        <CardItem
-                            key={`bottom-${service.title}-${index}`}
-                            service={service}
-                        />
-                    ))}
-                </Marquee>
+                    {/* Marquee Row 2 (Moving Left) */}
+                    <div>
+                        <Marquee
+                            direction="left"
+                            speed={28}
+                            gradient={false}
+                            autoFill={
+                                true
+                            } /* <-- Prevents gaps across all screen sizes */
+                            pauseOnHover={true}
+                            pauseOnClick={true}
+                            className="overflow-hidden py-2"
+                        >
+                            {bottomRowServices.map((service, index) => (
+                                <CardItem
+                                    key={`bottom-${service.title}-${index}`}
+                                    service={service}
+                                />
+                            ))}
+                        </Marquee>
+                    </div>
+                </div>
             </div>
         </section>
     );
