@@ -9,6 +9,7 @@ import lightModeLogo from "@/public/assets/logo/prodesignity-logo-light.svg";
 const navLinks = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/services" },
+    { name: "Pricing", href: "#pricing" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
 ];
@@ -76,6 +77,7 @@ export default function Header() {
                             <Link
                                 key={link.name}
                                 href={link.href}
+                                scroll={true}
                                 className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white/70 hover:bg-slate-100/70 dark:hover:bg-slate-800/50 rounded-lg transition-all"
                             >
                                 {link.name}

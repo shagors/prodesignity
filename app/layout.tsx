@@ -22,9 +22,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <html
             lang="en"
             suppressHydrationWarning
-            className={`${poppins.variable} `}
+            className={`${poppins.variable} scroll-smooth`}
         >
-            <body className="min-h-full flex flex-col">
+            <body className="">
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
