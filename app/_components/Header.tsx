@@ -3,6 +3,9 @@ import Image from "next/image";
 import ThemeToggle from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
 
+import darkModeLogo from "@/public/assets/logo/prodesinity-logo-dark.svg";
+import lightModeLogo from "@/public/assets/logo/prodesignity-logo-light.svg";
+
 const navLinks = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/services" },
@@ -44,21 +47,23 @@ export default function Header() {
                     </Link> */}
 
                     {/* Brand Logo dark mode and light mode image */}
-                    <Link href="/" className="flex items-center group">
+                    <Link
+                        href="/"
+                        className="flex items-center group select-none"
+                    >
                         <div className="relative h-8 sm:h-9 md:h-10 w-auto transition-transform duration-200 group-hover:scale-105">
+                            {/* Dark Mode SVG Logo */}
                             <Image
-                                src="/assets/logo/prodesinity-logo-dark.svg"
+                                src={darkModeLogo}
                                 alt="ProDesignity Logo"
-                                width={180}
-                                height={40}
                                 className=" h-0 w-0 dark:h-full dark:w-auto object-contain scale-0 dark:scale-100 transition-transform duration-200"
                                 priority
                             />
+
+                            {/* Light Mode SVG Logo */}
                             <Image
-                                src="/assets/logo/prodesignity-logo-light.svg"
+                                src={lightModeLogo}
                                 alt="ProDesignity Logo"
-                                width={180}
-                                height={40}
                                 className="h-full w-auto object-contain dark:scale-0 scale-100 dark:w-0 dark:h-0 transition-transform duration-200"
                                 priority
                             />

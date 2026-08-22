@@ -19,7 +19,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
-        <html lang="en" className={`${poppins.variable} `}>
+        <html
+            lang="en"
+            suppressHydrationWarning
+            className={`${poppins.variable} `}
+        >
             <body className="min-h-full flex flex-col">
                 <ThemeProvider
                     attribute="class"
