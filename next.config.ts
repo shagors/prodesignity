@@ -14,6 +14,16 @@ const nextConfig: NextConfig = {
                 hostname: "commons.wikimedia.org",
                 port: "",
             },
+            {
+                protocol: "https",
+                hostname: "i.ytimg.com",
+                port: "",
+            },
+            {
+                protocol: "https",
+                hostname: "images.unsplash.com",
+                port: "",
+            },
         ],
     },
 };

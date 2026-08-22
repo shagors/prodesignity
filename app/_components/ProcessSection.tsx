@@ -11,6 +11,7 @@ import {
     Rocket,
     ArrowRight,
 } from "lucide-react";
+import { HeaderPill } from "@/components/HeaderPill";
 
 interface Step {
     number: string;
@@ -116,9 +117,12 @@ export default function ProcessSection() {
                     className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 sm:pb-16"
                 >
                     <div>
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-dark-card-bg border border-border-color dark:border-dark-border-color text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-4 shadow-sm">
-                            Our Process
-                        </div>
+                        <HeaderPill
+                            text="Our Process"
+                            className="justify-start sm:mb-8"
+                            dotClassName="hidden"
+                            inlineDivClassName="px-3.5 py-1.5 sm:text-xs"
+                        />
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
                             How We Create <br />
                             <span className="bg-linear-to-r from-brand-violet via-primary to-brand-blue dark:from-dark-brand-violet dark:via-dark-primary dark:to-dark-brand-blue bg-clip-text text-transparent">
