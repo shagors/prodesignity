@@ -22,13 +22,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <html
             lang="en"
             suppressHydrationWarning
+            data-scroll-behavior="smooth"
             className={`${poppins.variable} scroll-smooth`}
         >
             <body className="">
                 <ThemeProvider
                     attribute="class"
-                    defaultTheme="system"
-                    enableSystem
+                    defaultTheme="dark"
+                    enableSystem={true}
                 >
                     <Header />
 

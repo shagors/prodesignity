@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import darkModeLogo from "@/public/assets/logo/prodesinity-logo-dark.svg";
+import lightModeLogo from "@/public/assets/logo/prodesignity-logo-light.svg";
+
 const serviceLinks = [
     { name: "Short-form & Reels Editing", href: "/services" },
     { name: "Long-form Video Production", href: "/services" },
@@ -22,24 +25,28 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-border-color dark:border-dark-border-color">
                     {/* Brand Identity Column */}
                     <div className="space-y-4">
-                        <Link href="/" className="flex items-center gap-3">
-                            <div className="relative w-9 h-9 rounded-lg bg-linear-to-tr from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue p-0.5 shadow-md">
-                                <div className="w-full h-full bg-white dark:bg-slate-900 rounded-md flex items-center justify-center overflow-hidden p-1">
-                                    <Image
-                                        src="/assets/logo/prodesignity-logo.png"
-                                        alt="ProDesignity Logo"
-                                        width={32}
-                                        height={32}
-                                        className="object-contain"
-                                    />
-                                </div>
+                        {/* Brand Logo dark mode and light mode image */}
+                        <Link
+                            href="/"
+                            className="flex items-center group select-none"
+                        >
+                            <div className="relative h-8 sm:h-9 md:h-10 w-auto transition-transform duration-200 group-hover:scale-105">
+                                {/* Dark Mode SVG Logo */}
+                                <Image
+                                    src={darkModeLogo}
+                                    alt="ProDesignity Logo"
+                                    className=" h-0 w-0 dark:h-full dark:w-auto object-contain scale-0 dark:scale-100 transition-transform duration-200"
+                                    priority
+                                />
+
+                                {/* Light Mode SVG Logo */}
+                                <Image
+                                    src={lightModeLogo}
+                                    alt="ProDesignity Logo"
+                                    className="h-full w-auto object-contain dark:scale-0 scale-100 dark:w-0 dark:h-0 transition-transform duration-200"
+                                    priority
+                                />
                             </div>
-                            <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
-                                Pro
-                                <span className="bg-linear-to-r from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue bg-clip-text text-transparent">
-                                    Designity
-                                </span>
-                            </span>
                         </Link>
                         <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm">
                             High-converting video editing, modern visual assets,
