@@ -30,13 +30,13 @@ export default function LegalToc({ items }: { items: TocItem[] }) {
                     .filter((entry) => entry.isIntersecting)
                     .sort(
                         (a, b) =>
-                            a.boundingClientRect.top - b.boundingClientRect.top
+                            a.boundingClientRect.top - b.boundingClientRect.top,
                     );
 
                 if (visible[0]) setActiveId(visible[0].target.id);
             },
             // Focus the band just below the sticky header.
-            { rootMargin: "-96px 0px -70% 0px", threshold: 0 }
+            { rootMargin: "-96px 0px -70% 0px", threshold: 0 },
         );
 
         const nodes = items
@@ -63,7 +63,7 @@ export default function LegalToc({ items }: { items: TocItem[] }) {
                                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
                                     isActive
                                         ? "bg-indigo-50 font-semibold text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
-                                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-100"
+                                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-100",
                                 )}
                             >
                                 <span
@@ -71,12 +71,14 @@ export default function LegalToc({ items }: { items: TocItem[] }) {
                                         "w-5 shrink-0 pt-px text-right font-mono text-[11px] tabular-nums",
                                         isActive
                                             ? "text-indigo-500 dark:text-indigo-400"
-                                            : "text-slate-400 dark:text-slate-600"
+                                            : "text-slate-400 dark:text-slate-600",
                                     )}
                                 >
                                     {String(index + 1).padStart(2, "0")}
                                 </span>
-                                <span className="leading-snug">{item.title}</span>
+                                <span className="leading-snug">
+                                    {item.title}
+                                </span>
                             </a>
                         </li>
                     );
@@ -88,7 +90,7 @@ export default function LegalToc({ items }: { items: TocItem[] }) {
     return (
         <>
             {/* Mobile: collapsed by default */}
-            <details className="lg:hidden group rounded-2xl border border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/50">
+            <details className=" lg:hidden group rounded-2xl border border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/50">
                 <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 text-sm font-semibold text-slate-900 [&::-webkit-details-marker]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-white">
                     <ListTree className="h-4 w-4 text-indigo-500 dark:text-indigo-400" />
                     Jump to a section
@@ -102,13 +104,13 @@ export default function LegalToc({ items }: { items: TocItem[] }) {
             </details>
 
             {/* Desktop: sticky rail */}
-            <div className="hidden lg:block">
-                <div className="sticky top-28">
+            <aside className="hidden lg:block">
+                <div className="sticky top-24 self-start">
                     <p className="mb-3 px-3 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">
                         Contents
                     </p>
 
-                    <div className="max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
+                    <div className="max-h-[calc(100vh-10rem)] overflow-y-auto pr-1">
                         {list}
                     </div>
 
@@ -121,7 +123,7 @@ export default function LegalToc({ items }: { items: TocItem[] }) {
                         Print or save as PDF
                     </button>
                 </div>
-            </div>
+            </aside>
         </>
     );
 }

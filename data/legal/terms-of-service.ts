@@ -11,7 +11,7 @@ import type { LegalDocument } from "./types";
  * clauses in particular should be reviewed by a lawyer in your jurisdiction.
  */
 export const termsOfService: LegalDocument = {
-    slug: "terms-of-service",
+    slug: "terms",
     title: "Terms of Service",
     eyebrow: "Legal",
     description:

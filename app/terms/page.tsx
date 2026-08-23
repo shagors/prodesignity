@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import JsonLd from "@/app/_components/JsonLd";
-import LegalDocumentView from "@/app/_components/legal/LegalDocumentView";
+
 import { termsOfService } from "@/data/legal";
 import { resolveTokens } from "@/lib/legal";
 import { buildMetadata, legalPageSchema } from "@/lib/seo";
+import LegalDocumentView from "./_components/LegalDocumentView";
+import JsonLd from "../_components/JsonLd";
 
 export const metadata: Metadata = buildMetadata({
     title: termsOfService.title,

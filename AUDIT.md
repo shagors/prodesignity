@@ -10,7 +10,7 @@ pass** — two separate blockers. Both are fixed, `next build` now passes and al
 ✓ tsc --noEmit — clean
 Route (app)
 ┌ ○ /              ├ ○ /privacy-policy   ├ ○ /robots.txt
-├ ○ /about         ├ ○ /terms-of-service ├ ○ /sitemap.xml
+├ ○ /about         ├ ○ /terms            ├ ○ /sitemap.xml
 ├ ○ /contact       ├ ○ /services         └ ○ /llms.txt
 ```
 
@@ -20,12 +20,12 @@ Route (app)
 
 The integration was partial, so `next build` failed on unresolved imports.
 
-| Problem | Fix |
-|---|---|
-| `privacy-policy.ts` sat in `lib/legal/` | Moved to `data/legal/`, removed the empty `lib/legal/` dir |
-| `data/legal/index.ts` absent | Restored — `@/data/legal` was imported by 3 files and resolved to nothing |
-| `data/seo/faq.ts` absent | Restored — imported by `lib/seo.ts` and `app/llms.txt/route.ts` |
-| `app/terms-of-service/page.tsx` absent | Created — the data file existed but had no route |
+| Problem                                 | Fix                                                                       |
+| --------------------------------------- | ------------------------------------------------------------------------- |
+| `privacy-policy.ts` sat in `lib/legal/` | Moved to `data/legal/`, removed the empty `lib/legal/` dir                |
+| `data/legal/index.ts` absent            | Restored — `@/data/legal` was imported by 3 files and resolved to nothing |
+| `data/seo/faq.ts` absent                | Restored — imported by `lib/seo.ts` and `app/llms.txt/route.ts`           |
+| `app/terms/page.tsx` absent             | Created — the data file existed but had no route                          |
 
 Worth noting the trap: `lib/legal.ts` **and** `lib/legal/` can coexist on disk,
 and `@/lib/legal` silently resolves to the `.ts` file. So the misplaced policy
@@ -46,7 +46,7 @@ behaviour identical.
 ## Also fixed
 
 **Duplicate `FAQPage` on every URL.** `siteSchema()` was rendering the studio
-FAQ from the root layout, so `/privacy-policy` emitted *two* FAQPage entities —
+FAQ from the root layout, so `/privacy-policy` emitted _two_ FAQPage entities —
 its own plus the site-wide one. Validators flag that, and it makes it ambiguous
 to a crawler which questions belong to which page. Split into `siteSchema()`
 (Organization + WebSite, root layout) and `homeSchema()` (FAQPage, homepage
@@ -73,7 +73,7 @@ placeholder. Reworded both intros. Also fixed "brands in United States" in
 
 ## Verified against a running production server
 
-- One `FAQPage` per URL — `/` 1, `/privacy-policy` 1, `/terms-of-service` 1, `/about` 0
+- One `FAQPage` per URL — `/` 1, `/privacy-policy` 1, `/terms` 1, `/about` 0
 - Schema graph parses: `ProfessionalService`, `WebSite`, `WebPage`,
   `BreadcrumbList`, `OfferCatalog` with 10 `Service` nodes, 15 `Question` nodes
 - `/robots.txt`, `/sitemap.xml`, `/llms.txt` all 200 with correct content types
@@ -86,21 +86,18 @@ placeholder. Reworded both intros. Also fixed "brands in United States" in
 ## Still on you
 
 **Blocking-ish, before you trust the pages:**
+
 1. `config/site.ts` still has every `TODO` unfilled — `legalName`, `founded`,
    street address, and all five social URLs. `sameAs` is one of the strongest
    entity-verification signals AI systems have, and it's currently empty.
 2. Lawyer review of the sub-processor table, governing law, and the liability
    cap. Serving US/UK/EU clients from Bangladesh has real implications.
 
-**Not blocking, but it's what actually decides whether AI cites you:**
-3. `/about` and `/services` are still byte-identical placeholders. Noindex is a
-   holding action, not a fix.
-4. All 10 keyword clusters are still `status: "planned"`. You have four real
-   pages. Metadata can't compensate for that — build perfume first.
-5. The hero JPG is **2.1 MB** committed to `public/`. Convert to WebP/AVIF.
-6. Three pre-existing `react-hooks/set-state-in-effect` lint errors in
-   `portfolio/LiveViews.tsx` and `portfolio/SmartImage.tsx`. They don't fail the
-   build, so Vercel won't block on them, but they cause cascading re-renders.
+**Not blocking, but it's what actually decides whether AI cites you:** 3. `/about` and `/services` are still byte-identical placeholders. Noindex is a
+holding action, not a fix. 4. All 10 keyword clusters are still `status: "planned"`. You have four real
+pages. Metadata can't compensate for that — build perfume first. 5. The hero JPG is **2.1 MB** committed to `public/`. Convert to WebP/AVIF. 6. Three pre-existing `react-hooks/set-state-in-effect` lint errors in
+`portfolio/LiveViews.tsx` and `portfolio/SmartImage.tsx`. They don't fail the
+build, so Vercel won't block on them, but they cause cascading re-renders.
 
 **Positioning conflict, worth a decision.** Your old title tag said "Shopify
 Development, Web Design & 3D/2D Animation Agency"; your keyword list is 3D

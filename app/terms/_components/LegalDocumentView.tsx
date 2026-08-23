@@ -1,16 +1,26 @@
 import { Fragment, type ReactNode } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Info, Mail, ShieldCheck, TriangleAlert } from "lucide-react";
+import {
+    ArrowUpRight,
+    Info,
+    Mail,
+    ShieldCheck,
+    TriangleAlert,
+} from "lucide-react";
 import { siteConfig } from "@/config/site";
 import type { LegalBlock, LegalDocument } from "@/data/legal/types";
-import { estimateReadingTime, formatLegalDate, resolveTokens } from "@/lib/legal";
+import {
+    estimateReadingTime,
+    formatLegalDate,
+    resolveTokens,
+} from "@/lib/legal";
 import { cn } from "@/lib/utils";
 import LegalToc from "./LegalToc";
 
 /**
  * app/_components/legal/LegalDocumentView.tsx
  * ---------------------------------------------------------------------------
- * Renders any LegalDocument. Both /privacy-policy and /terms-of-service use
+ * Renders any LegalDocument. Both /privacy-policy and /terms use
  * this, so adding a Cookie Policy or DPA later is a data file plus a 12-line
  * page — no new layout work, and no chance of the two pages drifting apart.
  *
@@ -79,7 +89,7 @@ function Block({ block }: { block: LegalBlock }) {
                 <ListTag
                     className={cn(
                         "space-y-2.5 text-[15px] leading-7 text-slate-600 dark:text-slate-300",
-                        block.ordered ? "list-decimal pl-5" : "pl-0"
+                        block.ordered ? "list-decimal pl-5" : "pl-0",
                     )}
                 >
                     {block.items.map((item, i) => (
@@ -88,7 +98,7 @@ function Block({ block }: { block: LegalBlock }) {
                             className={cn(
                                 block.ordered
                                     ? "pl-1 marker:font-semibold marker:text-indigo-500 dark:marker:text-indigo-400"
-                                    : "relative pl-6"
+                                    : "relative pl-6",
                             )}
                         >
                             {!block.ordered && (
@@ -139,7 +149,7 @@ function Block({ block }: { block: LegalBlock }) {
                                         <th
                                             key={i}
                                             scope="col"
-                                            className="whitespace-nowrap px-4 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400"
+                                            className="whitespace-nowrap px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400"
                                         >
                                             {resolveTokens(cell)}
                                         </th>
@@ -159,7 +169,7 @@ function Block({ block }: { block: LegalBlock }) {
                                                     "px-4 py-3 leading-6",
                                                     j === 0
                                                         ? "font-medium text-slate-900 dark:text-slate-100"
-                                                        : "text-slate-600 dark:text-slate-300"
+                                                        : "text-slate-600 dark:text-slate-300",
                                                 )}
                                             >
                                                 <InlineText>{cell}</InlineText>
@@ -183,7 +193,7 @@ function Block({ block }: { block: LegalBlock }) {
                         "flex gap-3 rounded-xl border p-4",
                         isWarning
                             ? "border-orange-200 bg-orange-50/70 dark:border-orange-500/25 dark:bg-orange-500/5"
-                            : "border-indigo-200 bg-indigo-50/70 dark:border-indigo-500/25 dark:bg-indigo-500/5"
+                            : "border-indigo-200 bg-indigo-50/70 dark:border-indigo-500/25 dark:bg-indigo-500/5",
                     )}
                 >
                     <Icon
@@ -191,7 +201,7 @@ function Block({ block }: { block: LegalBlock }) {
                             "mt-0.5 h-4.5 w-4.5 shrink-0",
                             isWarning
                                 ? "text-orange-500 dark:text-orange-400"
-                                : "text-indigo-500 dark:text-indigo-400"
+                                : "text-indigo-500 dark:text-indigo-400",
                         )}
                     />
                     <div className="space-y-1">
@@ -232,11 +242,13 @@ export default function LegalDocumentView({ doc }: { doc: LegalDocument }) {
     const minutes = estimateReadingTime(doc);
 
     return (
-        <main className="relative overflow-hidden bg-white font-sans transition-colors duration-300 dark:bg-[#090D16]">
+        <main className="relative  bg-white font-sans transition-colors duration-300 dark:bg-[#090D16]">
             {/* Ambient brand glow, matching the rest of the site */}
             <div
                 aria-hidden
-                className="pointer-events-none absolute -top-40 left-1/2 h-75 w-75 -translate-x-1/2 rounded-full bg-linear-to-tr from-violet-600/15 via-indigo-600/15 to-blue-500/15 blur-3xl sm:h-137.5 sm:w-137.5 dark:from-violet-600/25 dark:via-indigo-600/20 dark:to-blue-500/20"
+                className="pointer-events-none absolute -top-40 left-1/2 h-75 w-75 -translate-x-1/2 rounded-full bg-linear-to-tr from-violet-600/15 via-indigo-600/15 to-blue-500/15 blur-3xl sm:h-137.5 sm:w-137.5 dark:from-violet-600/25 dark:via-indigo-600/20 dark:to-blue-500/20
+                
+                "
             />
 
             <div className="relative z-10 mx-auto max-w-6xl px-4 pb-24 pt-16 sm:px-6 lg:px-8 lg:pt-24">
@@ -281,8 +293,8 @@ export default function LegalDocumentView({ doc }: { doc: LegalDocument }) {
                 </header>
 
                 {/* ---------------------------------------------- Body */}
-                <div className="mt-14 grid gap-10 lg:grid-cols-[15rem_1fr] lg:gap-14">
-                    <aside className="lg:pt-1">
+                <div className="mt-14 grid gap-10 lg:grid-cols-[15rem_1fr] lg:gap-14 relative">
+                    <aside className="lg:pt-1 lg:sticky lg:top-28 lg:self-start">
                         <LegalToc items={toc} />
                     </aside>
 

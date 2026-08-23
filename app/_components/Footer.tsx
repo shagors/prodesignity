@@ -16,7 +16,7 @@ const companyLinks = [
     { name: "Services Portfolio", href: "/services" },
     { name: "Contact & Inquiries", href: "/contact" },
     { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Terms of Service", href: "/terms-of-service" },
+    { name: "Terms of Service", href: "/terms" },
 ];
 
 export default function Footer() {
@@ -142,7 +142,7 @@ export default function Footer() {
                     </p>
                     <div className="flex gap-6">
                         <Link
-                            href="/terms-of-service"
+                            href="/terms"
                             className="hover:text-slate-600 dark:hover:text-slate-300 transition"
                         >
                             Terms of Service

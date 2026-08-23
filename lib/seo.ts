@@ -52,7 +52,12 @@ export function buildMetadata({
             description,
             locale: "en_US",
             images: [
-                { url: absoluteUrl(image), width: 1200, height: 630, alt: title },
+                {
+                    url: absoluteUrl(image),
+                    width: 1200,
+                    height: 630,
+                    alt: title,
+                },
             ],
             ...(publishedTime ? { publishedTime } : {}),
             ...(modifiedTime ? { modifiedTime } : {}),
@@ -172,9 +177,7 @@ export function websiteSchema() {
     };
 }
 
-export function breadcrumbSchema(
-    trail: { name: string; path: string }[]
-) {
+export function breadcrumbSchema(trail: { name: string; path: string }[]) {
     return {
         "@type": "BreadcrumbList",
         itemListElement: trail.map((crumb, i) => ({
@@ -236,7 +239,7 @@ export function homeSchema() {
     };
 }
 
-/** Per-document graph for /privacy-policy and /terms-of-service. */
+/** Per-document graph for /privacy-policy and /terms. */
 export function legalPageSchema(doc: LegalDocument) {
     const url = absoluteUrl(`/${doc.slug}`);
 
@@ -259,7 +262,7 @@ export function legalPageSchema(doc: LegalDocument) {
                 // Section summaries give a crawler the document's shape without
                 // it having to parse the whole page.
                 significantLink: doc.sections.map(
-                    (section) => `${url}#${section.id}`
+                    (section) => `${url}#${section.id}`,
                 ),
             },
             breadcrumbSchema([

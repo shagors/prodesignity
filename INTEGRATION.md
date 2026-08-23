@@ -21,7 +21,7 @@ app/_components/JsonLd.tsx                  ← new
 app/_components/legal/LegalDocumentView.tsx ← new
 app/_components/legal/LegalToc.tsx          ← new
 app/privacy-policy/page.tsx                 ← new
-app/terms-of-service/page.tsx               ← new
+app/terms/page.tsx               ← new
 app/robots.ts                               ← new
 app/sitemap.ts                              ← new
 app/llms.txt/route.ts                       ← new
@@ -51,10 +51,10 @@ to correct behaviour rather than broken canonicals.
 ```tsx
 // line ~18, in the company links array
 { name: "Privacy Policy", href: "/privacy-policy" },
-{ name: "Terms of Service", href: "/terms-of-service" },
+{ name: "Terms of Service", href: "/terms" },
 
 // lines ~144 and ~150, the bottom bar
-<Link href="/terms-of-service">Terms of Service</Link>
+<Link href="/terms">Terms of Service</Link>
 <Link href="/privacy-policy">Privacy Policy</Link>
 ```
 
@@ -67,7 +67,7 @@ crawlers and, more practically, by Stripe and Meta when they review a business.
 npm run dev
 ```
 
-- `/privacy-policy` and `/terms-of-service` — toggle the theme, check both.
+- `/privacy-policy` and `/terms` — toggle the theme, check both.
 - `/robots.txt`, `/sitemap.xml`, `/llms.txt` — all should return plain text.
 - View source on a legal page and confirm the `<script type="application/ld+json">`
   blocks are in the **initial HTML**, not injected later.
@@ -107,23 +107,23 @@ Don't do this yet — two documents that change twice a year don't justify a CMS
 **Your legal pages will not rank for "3D product visualization agency", and
 they should not.** Nobody searching for a rendering studio wants your terms
 page, and trying to force those keywords in would make the pages worse at their
-actual job. What I've built instead is the SEO *infrastructure* — which is
+actual job. What I've built instead is the SEO _infrastructure_ — which is
 site-wide — plus an honest map of what still has to be written.
 
 ### What's shipped and working now
 
-| File | What it does |
-|---|---|
-| `lib/seo.ts` | Canonical URLs, OG/Twitter tags, and the `Organization` + `WebSite` + `FAQPage` JSON-LD graph |
-| `app/robots.ts` | Explicitly allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot-Extended and the live fetchers |
-| `app/sitemap.ts` | Generated from your data, so it can't go stale |
-| `app/llms.txt/route.ts` | Plain-Markdown briefing for LLM crawlers |
-| `data/seo/faq.ts` | Ten citable Q&A passages — the highest-leverage file here |
+| File                    | What it does                                                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `lib/seo.ts`            | Canonical URLs, OG/Twitter tags, and the `Organization` + `WebSite` + `FAQPage` JSON-LD graph                |
+| `app/robots.ts`         | Explicitly allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot-Extended and the live fetchers |
+| `app/sitemap.ts`        | Generated from your data, so it can't go stale                                                               |
+| `app/llms.txt/route.ts` | Plain-Markdown briefing for LLM crawlers                                                                     |
+| `data/seo/faq.ts`       | Ten citable Q&A passages — the highest-leverage file here                                                    |
 
 ### Why the FAQ file matters more than the keyword list
 
-When ChatGPT, Gemini or Perplexity answer *"who does perfume bottle CGI for
-e-commerce brands"*, they aren't matching keyword density. They retrieve short,
+When ChatGPT, Gemini or Perplexity answer _"who does perfume bottle CGI for
+e-commerce brands"_, they aren't matching keyword density. They retrieve short,
 self-contained passages and stitch them into an answer. A passage gets used when
 it:
 
@@ -142,18 +142,18 @@ into assistants.
 Your `keyword.txt` has ~400 keywords. **You currently have four real pages**,
 and `/services` and `/about` are both "coming soon" placeholders with identical
 copy. No amount of metadata fixes that. AI systems recommend businesses they can
-*verify* — and right now there's very little on the site to read.
+_verify_ — and right now there's very little on the site to read.
 
 `data/seo/keywords.ts` collapses the 400 into **10 clusters**, each marked
 `status: "planned"`. Ordered by commercial value for you:
 
-| Priority | Page to build | Primary keyword |
-|---|---|---|
-| 1 | `/industries/perfume-fragrance` | perfume packaging design |
-| 2 | `/services/amazon-listing-design` | Amazon A+ Content design |
-| 3 | `/services/3d-product-visualization` | 3D product visualization |
-| 4 | `/services/packaging-design` | packaging design agency |
-| 5 | `/industries/cosmetics-skincare` | cosmetic packaging design |
+| Priority | Page to build                        | Primary keyword           |
+| -------- | ------------------------------------ | ------------------------- |
+| 1        | `/industries/perfume-fragrance`      | perfume packaging design  |
+| 2        | `/services/amazon-listing-design`    | Amazon A+ Content design  |
+| 3        | `/services/3d-product-visualization` | 3D product visualization  |
+| 4        | `/services/packaging-design`         | packaging design agency   |
+| 5        | `/industries/cosmetics-skincare`     | cosmetic packaging design |
 
 Perfume first because it's the narrowest, highest-margin niche where you're
 competing against a handful of studios rather than thousands. Flip `status` to
@@ -213,7 +213,7 @@ readable template that covers the ground a studio like yours needs. Before you
 rely on it, have a qualified lawyer in your jurisdiction check at minimum:
 
 - The **sub-processor table** in the privacy policy — it lists provider
-  *categories*. Under GDPR you may need to name the actual companies.
+  _categories_. Under GDPR you may need to name the actual companies.
 - **Governing law and courts** (`config/site.ts` → `legal`). Serving US, UK and
   EU clients from Bangladesh has real implications for enforceability, and for
   whether you need a GDPR Article 27 representative in the EU/UK.

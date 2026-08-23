@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import JsonLd from "@/app/_components/JsonLd";
-import LegalDocumentView from "@/app/_components/legal/LegalDocumentView";
+import LegalDocumentView from "@/app/terms/_components/LegalDocumentView";
 import { privacyPolicy } from "@/data/legal";
 import { resolveTokens } from "@/lib/legal";
 import { buildMetadata, legalPageSchema } from "@/lib/seo";
