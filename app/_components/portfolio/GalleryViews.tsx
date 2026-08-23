@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     Box,
     Calendar,
@@ -187,13 +187,13 @@ export function AmazonMedia({ item }: { item: AmazonWork }) {
             </p>
 
             {/* Stacked, because that's how a shopper meets them */}
-            <div className="space-y-3 max-h-[420px] overflow-y-auto pr-1 [scrollbar-width:thin]">
+            <div className="space-y-3 max-h-105 overflow-y-auto pr-1 scrollbar-thin">
                 {item.modules.map((m, i) => (
                     <figure
                         key={m.type}
                         className="rounded-xl overflow-hidden border border-white/10 bg-black"
                     >
-                        <div className="relative aspect-[1464/600] w-full">
+                        <div className="relative aspect-1464/600 w-full">
                             <SmartImage
                                 src={m.src}
                                 alt={m.headline}
@@ -261,16 +261,11 @@ export function Product3DMedia({ item }: { item: Product3DWork }) {
     const [active, setActive] = useState(0);
     const [showTurntable, setShowTurntable] = useState(false);
 
-    useEffect(() => {
-        setActive(0);
-        setShowTurntable(false);
-    }, [item.id]);
-
     const current = item.renders[active];
 
     return (
         <div className="w-full bg-slate-950">
-            <div className="relative aspect-16/9 w-full bg-black">
+            <div className="relative aspect-video w-full bg-black">
                 {showTurntable && item.turntable ? (
                     <video
                         src={item.turntable}
@@ -301,7 +296,7 @@ export function Product3DMedia({ item }: { item: Product3DWork }) {
             </div>
 
             {/* Angle switcher */}
-            <div className="flex items-center gap-2 overflow-x-auto p-3 bg-slate-900/90 border-t border-white/10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-center gap-2 overflow-x-auto p-3 bg-slate-900/90 border-t border-white/10 scrollbar-none [&::-webkit-scrollbar]:hidden">
                 <Rotate3d className="w-4 h-4 text-cyan-400 shrink-0" />
                 {item.renders.map((r, i) => (
                     <button

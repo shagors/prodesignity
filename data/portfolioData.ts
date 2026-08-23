@@ -295,7 +295,7 @@ export type PortfolioItem =
 /* ------------------------ Category config -------------------------- */
 
 export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
-    "Video Editing",
+    // "Video Editing",
     "Web Development",
     "Shopify",
     "Amazon A+",
@@ -570,7 +570,11 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
         subtitle: "Nine pages, one second, zero layout shift",
         badge: "Next.js Build",
         thumbnail: demoImage("prodesignity-webdev-northbrew"),
-        longThumbnail: demoImage("prodesignity-webdev-northbrew-full", 900, 2600),
+        longThumbnail: demoImage(
+            "prodesignity-webdev-northbrew-full",
+            900,
+            2600,
+        ),
         siteUrl: "https://northbrew.example.com",
         lighthouse: {
             performance: 99,
@@ -990,7 +994,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
         profile: "report",
         accent: "violet",
         title: "Lumea — Technical Audit & Recovery",
-        subtitle: "A migration lost 60% of organic traffic. Ten weeks to get it back.",
+        subtitle:
+            "A migration lost 60% of organic traffic. Ten weeks to get it back.",
         badge: "Technical Audit",
         thumbnail: demoImage("prodesignity-seo-lumea"),
         domain: "lumea.example.com",
@@ -1002,7 +1007,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
         description:
             "A platform migration shipped without redirects and took 4,100 URLs offline in a weekend. We mapped the old sitemap against the new one, restored what mattered, and killed the 2,800 thin variant pages that should never have been indexed.",
         trafficSeries: [
-            48000, 19000, 21000, 27000, 34000, 41000, 52000, 61000, 68000, 74000,
+            48000, 19000, 21000, 27000, 34000, 41000, 52000, 61000, 68000,
+            74000,
         ],
         rankings: [
             {
@@ -1371,7 +1377,13 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
         ],
         engine: "Blender · Cycles",
         polyCount: "3.1M tris",
-        textureMaps: ["Base Color", "Roughness", "Normal", "AO", "Displacement"],
+        textureMaps: [
+            "Base Color",
+            "Roughness",
+            "Normal",
+            "AO",
+            "Displacement",
+        ],
         renderPasses: [
             { label: "Resolution", value: "5120 × 2880 px" },
             { label: "Samples", value: "3000 + denoise" },
@@ -1448,7 +1460,12 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
             { stage: "Add to cart", metric: "9,400" },
             { stage: "Purchases", metric: "2,140" },
         ],
-        tools: ["Meta Ads Manager", "TikTok Ads", "Triple Whale", "Premiere Pro"],
+        tools: [
+            "Meta Ads Manager",
+            "TikTok Ads",
+            "Triple Whale",
+            "Premiere Pro",
+        ],
     },
     {
         id: "mkt-02",

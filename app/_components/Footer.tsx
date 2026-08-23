@@ -15,7 +15,8 @@ const companyLinks = [
     { name: "About ProDesignity", href: "/about" },
     { name: "Services Portfolio", href: "/services" },
     { name: "Contact & Inquiries", href: "/contact" },
-    { name: "Privacy Policy", href: "#" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms of Service", href: "/terms-of-service" },
 ];
 
 export default function Footer() {
@@ -141,13 +142,13 @@ export default function Footer() {
                     </p>
                     <div className="flex gap-6">
                         <Link
-                            href="#"
+                            href="/terms-of-service"
                             className="hover:text-slate-600 dark:hover:text-slate-300 transition"
                         >
                             Terms of Service
                         </Link>
                         <Link
-                            href="#"
+                            href="/privacy-policy"
                             className="hover:text-slate-600 dark:hover:text-slate-300 transition"
                         >
                             Privacy Policy

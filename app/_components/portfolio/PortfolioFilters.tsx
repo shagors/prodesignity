@@ -46,11 +46,11 @@ export default function PortfolioFilters({
     return (
         <div className="flex flex-col items-center gap-5 mb-12 sm:mb-16">
             {/* Discipline rail */}
-            <div className="relative w-full max-w-5xl">
+            <div className="relative w-full max-w-4xl">
                 <div
                     role="tablist"
                     aria-label="Portfolio disciplines"
-                    className="flex lg:flex-wrap lg:justify-center items-center gap-2 sm:gap-2.5 overflow-x-auto px-4 py-1 snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    className="flex lg:flex-wrap lg:justify-center items-center gap-2 sm:gap-2.5 overflow-x-auto px-4 py-1 snap-x scrollbar-none [&::-webkit-scrollbar]:hidden"
                 >
                     {PORTFOLIO_CATEGORIES.map((category) => {
                         const isActive = selectedCategory === category;
@@ -101,23 +101,25 @@ export default function PortfolioFilters({
                 {/* Format toggle — video is the only discipline with formats */}
                 {showFormats && (
                     <div className="inline-flex p-1.5 rounded-full bg-slate-100 dark:bg-dark-card-bg border border-border-color dark:border-dark-border-color shadow-inner">
-                        {(["Full-Form", "Short-Form"] as const).map((format) => {
-                            const isActive = selectedFormat === format;
-                            return (
-                                <button
-                                    key={format}
-                                    type="button"
-                                    onClick={() => onSelectFormat(format)}
-                                    className={`px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                                        isActive
-                                            ? "bg-primary text-white shadow-md shadow-primary/25"
-                                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                                    }`}
-                                >
-                                    {format}
-                                </button>
-                            );
-                        })}
+                        {(["Full-Form", "Short-Form"] as const).map(
+                            (format) => {
+                                const isActive = selectedFormat === format;
+                                return (
+                                    <button
+                                        key={format}
+                                        type="button"
+                                        onClick={() => onSelectFormat(format)}
+                                        className={`px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                                            isActive
+                                                ? "bg-primary text-white shadow-md shadow-primary/25"
+                                                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                                        }`}
+                                    >
+                                        {format}
+                                    </button>
+                                );
+                            },
+                        )}
                     </div>
                 )}
 
