@@ -17,7 +17,7 @@ import { HeaderPill } from "@/components/HeaderPill";
 
 export default function FeaturedWorksSection() {
     const [selectedCategory, setSelectedCategory] =
-        useState<PortfolioCategory>("Video Editing");
+        useState<PortfolioCategory>("Shopify");
     const [selectedFormat, setSelectedFormat] =
         useState<VideoFormat>("Full-Form");
     const [layout, setLayout] = useState<LayoutMode>("rail");
