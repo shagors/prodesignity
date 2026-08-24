@@ -1,6 +1,20 @@
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 
+import type { Metadata } from "next";
+
+/**
+ * Placeholder page. /about and /services currently share identical copy, and
+ * two URLs with byte-identical content is a real quality signal problem for
+ * both search engines and AI retrieval. Keep this noindex until the page has
+ * its own content, then delete this export.
+ */
+export const metadata: Metadata = {
+    title: "About",
+    description: "About ProDesignity — 3D product visualization and packaging design studio. Full page coming soon.",
+    robots: { index: false, follow: true },
+};
+
 export default function About() {
     return (
         <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-white dark:bg-[#090D16] py-16 px-4 sm:px-6 lg:px-8 font-sans transition-colors duration-300">
