@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Check, Star, Zap } from "lucide-react";
 import { PRICING_PLANS } from "@/data/pricingData";
@@ -12,7 +12,6 @@ export default function PricingSection() {
     const sectionRef = useRef<HTMLElement>(null);
     const router = useRouter();
     const pathname = usePathname();
-    const searchParams = useSearchParams();
 
     useEffect(() => {
         const target = sectionRef.current;
@@ -25,7 +24,12 @@ export default function PricingSection() {
                     !entry.isIntersecting &&
                     window.location.hash === "#pricing"
                 ) {
-                    const query = searchParams?.toString();
+                    // Read the query string from the browser rather than
+                    // useSearchParams(). This effect only ever runs on the
+                    // client, and useSearchParams() would force the whole
+                    // pricing section into a CSR bailout — pushing it out of
+                    // the statically prerendered HTML that crawlers read.
+                    const query = window.location.search.replace(/^\?/, "");
                     const cleanPath = query ? `${pathname}?${query}` : pathname;
 
                     // Next.js client-side router replace (no full page reload)
@@ -43,7 +47,7 @@ export default function PricingSection() {
         return () => {
             observer.disconnect();
         };
-    }, [pathname, searchParams, router]);
+    }, [pathname, router]);
 
     return (
         <section
