@@ -56,7 +56,7 @@ const TeamMembersSData: TeamMember[] = [
         id: "Syedal-Nasif",
         name: "Syedal Nasif",
         role: "HR",
-        photo: "/assets/images/team/nasif.jpg",
+        photo: "/assets/images/team/nasif-change.jpg",
     },
     {
         id: "Asif-Iqbol-Suzon",
