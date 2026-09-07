@@ -181,84 +181,6 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
 export const SERVICES: Service[] = [
     /* ---------------------------- Web Design ---------------------------- */
     {
-        slug: "website-design-development",
-        title: "Website Design & Development",
-        group: "web-design",
-        icon: "Layout",
-        tagline:
-            "Fast, accessible, search-friendly websites built to represent your brand properly.",
-        summary:
-            "Create modern, fast, mobile-friendly websites made to represent your brand professionally.",
-        intro: [
-            "Most business websites fail for boring reasons: they load slowly on a phone, the copy buries the offer, and nothing on the page tells a visitor what to do next. We design and build sites that fix those three things first, then make them look good.",
-            "Every build starts from your actual sales conversation — what people ask, what they object to, what convinces them — and turns that into a page order. The result is a site your team can update without a developer, and one that scores well on Core Web Vitals because performance is designed in rather than bolted on afterwards.",
-        ],
-        deliverables: [
-            "Sitemap, wireframes and a clickable design in Figma",
-            "Responsive build tested on real phones, tablets and desktops",
-            "Core Web Vitals tuning: image formats, lazy loading, font strategy",
-            "On-page SEO groundwork — headings, metadata, schema, sitemap.xml",
-            "CMS or static build so your team can edit copy safely",
-            "Analytics, event tracking and a 30-day post-launch support window",
-        ],
-        idealFor: [
-            "Brands replacing an ageing template site",
-            "Agencies and studios that need a credible portfolio site",
-            "Product companies launching a new line",
-        ],
-        process: [
-            {
-                title: "Discovery",
-                body: "A 30-minute call to map your audience, competitors and the one action the site must drive.",
-            },
-            {
-                title: "Structure",
-                body: "Sitemap and wireframes first, so we argue about page order before anyone argues about colour.",
-            },
-            {
-                title: "Design",
-                body: "High-fidelity screens in Figma for desktop and mobile, with two rounds of revision built in.",
-            },
-            {
-                title: "Build",
-                body: "Semantic, accessible markup with performance budgets enforced as we go.",
-            },
-            {
-                title: "Launch & handover",
-                body: "Staging review, redirects, analytics, then a recorded walkthrough of how to edit everything.",
-            },
-        ],
-        faqs: [
-            {
-                q: "How long does a website take?",
-                a: "A focused five to seven page site usually runs three to five weeks end to end. Larger sites with custom templates or a CMS migration run six to ten weeks.",
-            },
-            {
-                q: "Do you work with WordPress, Webflow or custom code?",
-                a: "All three. We pick the platform after discovery based on who edits the site and how often, not on what we felt like building that week.",
-            },
-            {
-                q: "Will the site be SEO-ready at launch?",
-                a: "Yes. Heading hierarchy, metadata, structured data, internal linking, image alt text, XML sitemap and a clean URL structure ship with every build.",
-            },
-        ],
-        timeline: "3–6 weeks",
-        startingAt: "Custom quote",
-        accent: ACCENTS.orange,
-        seo: {
-            title: "Website Design & Development Services",
-            description:
-                "Custom website design and development for brands that need a fast, mobile-friendly, search-ready site. Figma design, accessible build, Core Web Vitals tuning and post-launch support.",
-            keywords: [
-                "website design services",
-                "web development agency",
-                "custom website design",
-                "responsive web design",
-                "business website development",
-            ],
-        },
-    },
-    {
         slug: "shopify-store-design",
         title: "Shopify Store Design",
         group: "web-design",
@@ -336,6 +258,86 @@ export const SERVICES: Service[] = [
             ],
         },
     },
+
+    {
+        slug: "website-design-development",
+        title: "Website Design & Development",
+        group: "web-design",
+        icon: "Layout",
+        tagline:
+            "Fast, accessible, search-friendly websites built to represent your brand properly.",
+        summary:
+            "Create modern, fast, mobile-friendly websites made to represent your brand professionally.",
+        intro: [
+            "Most business websites fail for boring reasons: they load slowly on a phone, the copy buries the offer, and nothing on the page tells a visitor what to do next. We design and build sites that fix those three things first, then make them look good.",
+            "Every build starts from your actual sales conversation — what people ask, what they object to, what convinces them — and turns that into a page order. The result is a site your team can update without a developer, and one that scores well on Core Web Vitals because performance is designed in rather than bolted on afterwards.",
+        ],
+        deliverables: [
+            "Sitemap, wireframes and a clickable design in Figma",
+            "Responsive build tested on real phones, tablets and desktops",
+            "Core Web Vitals tuning: image formats, lazy loading, font strategy",
+            "On-page SEO groundwork — headings, metadata, schema, sitemap.xml",
+            "CMS or static build so your team can edit copy safely",
+            "Analytics, event tracking and a 30-day post-launch support window",
+        ],
+        idealFor: [
+            "Brands replacing an ageing template site",
+            "Agencies and studios that need a credible portfolio site",
+            "Product companies launching a new line",
+        ],
+        process: [
+            {
+                title: "Discovery",
+                body: "A 30-minute call to map your audience, competitors and the one action the site must drive.",
+            },
+            {
+                title: "Structure",
+                body: "Sitemap and wireframes first, so we argue about page order before anyone argues about colour.",
+            },
+            {
+                title: "Design",
+                body: "High-fidelity screens in Figma for desktop and mobile, with two rounds of revision built in.",
+            },
+            {
+                title: "Build",
+                body: "Semantic, accessible markup with performance budgets enforced as we go.",
+            },
+            {
+                title: "Launch & handover",
+                body: "Staging review, redirects, analytics, then a recorded walkthrough of how to edit everything.",
+            },
+        ],
+        faqs: [
+            {
+                q: "How long does a website take?",
+                a: "A focused five to seven page site usually runs three to five weeks end to end. Larger sites with custom templates or a CMS migration run six to ten weeks.",
+            },
+            {
+                q: "Do you work with WordPress, Webflow or custom code?",
+                a: "All three. We pick the platform after discovery based on who edits the site and how often, not on what we felt like building that week.",
+            },
+            {
+                q: "Will the site be SEO-ready at launch?",
+                a: "Yes. Heading hierarchy, metadata, structured data, internal linking, image alt text, XML sitemap and a clean URL structure ship with every build.",
+            },
+        ],
+        timeline: "3–6 weeks",
+        startingAt: "Custom quote",
+        accent: ACCENTS.orange,
+        seo: {
+            title: "Website Design & Development Services",
+            description:
+                "Custom website design and development for brands that need a fast, mobile-friendly, search-ready site. Figma design, accessible build, Core Web Vitals tuning and post-launch support.",
+            keywords: [
+                "website design services",
+                "web development agency",
+                "custom website design",
+                "responsive web design",
+                "business website development",
+            ],
+        },
+    },
+
     {
         slug: "web-applications",
         title: "Web Applications",

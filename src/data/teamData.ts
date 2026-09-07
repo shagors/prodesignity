@@ -11,6 +11,8 @@
  * 800x1000 look best in the 4:5 frame.
  */
 
+import { shiftAndShuffle } from "@/lib/utils";
+
 export interface TeamMember {
     id: string;
     name: string;
@@ -22,7 +24,21 @@ export interface TeamMember {
     lead?: boolean;
 }
 
-export const TEAM_MEMBERS: TeamMember[] = [
+const TeamMembersSData: TeamMember[] = [
+    {
+        id: "Abdullah-Pitul",
+        name: "Abdullah Pitul",
+        role: "Founder & 3D Product Designer",
+        tagline: "Building ProDesignity since 2019",
+        photo: "/assets/images/team/pitul.jpg",
+        lead: true,
+    },
+    {
+        id: "Shajjad-Shagor",
+        name: "Shajjad Shagor",
+        role: "Shopify Developer",
+        photo: "/assets/images/team/shajjad.jpg",
+    },
     {
         id: "Yeasin-Iqbal",
         name: "Yeasin Iqbal",
@@ -35,20 +51,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
         role: "2D Artist & Animator",
         photo: "/assets/images/team/antor.jpg",
     },
-    {
-        id: "Abdullah-Pitul",
-        name: "Abdullah Pitul",
-        role: "Founder & 3D Product Designer",
-        tagline: "Building ProDesignity since 2019",
-        photo: "/assets/images/team/pitul.jpg",
-        lead: true,
-    },
-    {
-        id: "Seemol-Chakroborti",
-        name: "Seemol Chakroborti",
-        role: "Web Developer & Designer",
-        photo: "/assets/images/team/seemol.jpg",
-    },
+
     {
         id: "Syedal-Nasif",
         name: "Syedal Nasif",
@@ -68,13 +71,14 @@ export const TEAM_MEMBERS: TeamMember[] = [
         photo: "/assets/images/team/shahariar.jpg",
     },
     {
-        id: "Shajjad-Shagor",
-        name: "Shajjad Shagor",
-        role: "Shopify Developer",
-        photo: "/assets/images/team/shajjad.jpg",
+        id: "Seemol-Chakroborti",
+        name: "Seemol Chakroborti",
+        role: "Web Developer & Designer",
+        photo: "/assets/images/team/seemol.jpg",
     },
 ];
 
+export const TEAM_MEMBERS = shiftAndShuffle(TeamMembersSData);
 /** Index the slider opens on: the founder, if there is one. */
 export const TEAM_INITIAL_INDEX = Math.max(
     TEAM_MEMBERS.findIndex((m) => m.lead),

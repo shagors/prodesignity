@@ -9,13 +9,11 @@
  * jobs, otherwise they compete for the same query and both lose.
  */
 
-import Image from "next/image";
 import Link from "next/link";
 import {
     ArrowRight,
     ArrowUpRight,
     ChevronRight,
-    Crown,
     MessageSquare,
     ShieldCheck,
     Timer,
@@ -35,6 +33,7 @@ import { breadcrumbSchema, buildMetadata, graph } from "@/lib/seo";
 import { siteConfig } from "@/config/site";
 
 import type { Metadata } from "next";
+import OurTeamMemberSection from "@/components/our-service/OurTeamMemberSection";
 
 const PATH = "/services/our-service";
 
@@ -65,9 +64,6 @@ const WORKING_MODEL = [
 ];
 
 export default function OurServiceAndTeamPage() {
-    const lead = TEAM_MEMBERS.find((member) => member.lead);
-    const rest = TEAM_MEMBERS.filter((member) => !member.lead);
-
     const schema = graph(
         breadcrumbSchema([
             { name: "Home", path: "/" },
@@ -265,84 +261,7 @@ export default function OurServiceAndTeamPage() {
             </section>
 
             {/* --------------------------- The team ------------------------- */}
-            <section className="relative py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <HeaderPill text="Our team" className="sm:mb-6" />
-                    <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
-                        The people doing the work
-                    </h2>
-                    <p className="mt-3 text-center text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
-                        Small studio, specialist roles. You get the person who
-                        does the work, not an account manager relaying messages.
-                    </p>
-
-                    {/* Founder card */}
-                    {lead && (
-                        <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-8 rounded-3xl bg-linear-to-br from-card-bg to-slate-100 dark:from-[#0B101E] dark:to-[#070A12] border border-border-color dark:border-dark-border-color shadow-xl">
-                            <div className="lg:col-span-4">
-                                <div className="relative aspect-4/5 w-full max-w-xs mx-auto rounded-2xl overflow-hidden ring-2 ring-primary/40 shadow-lg">
-                                    <Image
-                                        src={lead.photo}
-                                        alt={`${lead.name}, ${lead.role} at ${siteConfig.name}`}
-                                        fill
-                                        sizes="(max-width: 1024px) 60vw, 20rem"
-                                        className="object-cover"
-                                    />
-                                </div>
-                            </div>
-                            <div className="lg:col-span-8">
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-orange/10 text-brand-orange dark:text-dark-brand-orange text-[11px] font-bold uppercase tracking-widest">
-                                    <Crown
-                                        className="w-3 h-3"
-                                        aria-hidden="true"
-                                    />
-                                    Founder
-                                </span>
-                                <h3 className="mt-3 text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
-                                    {lead.name}
-                                </h3>
-                                <p className="mt-1 text-sm font-semibold text-primary dark:text-dark-primary">
-                                    {lead.role}
-                                </p>
-                                {lead.tagline && (
-                                    <p className="mt-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                                        {lead.tagline}. Every project brief is
-                                        reviewed here before it reaches the
-                                        team, and every delivery is checked
-                                        before it reaches you.
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Everyone else */}
-                    <ul className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-                        {rest.map((member) => (
-                            <li
-                                key={member.id}
-                                className="group p-4 rounded-2xl bg-card-bg dark:bg-dark-card-bg border border-border-color dark:border-dark-border-color shadow-sm hover:border-primary/40 hover:shadow-lg transition-all"
-                            >
-                                <div className="relative aspect-4/5 w-full rounded-xl overflow-hidden mb-3.5 bg-slate-100 dark:bg-slate-800">
-                                    <Image
-                                        src={member.photo}
-                                        alt={`${member.name}, ${member.role} at ${siteConfig.name}`}
-                                        fill
-                                        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 15rem"
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                    />
-                                </div>
-                                <h3 className="text-sm font-black text-slate-900 dark:text-white leading-tight">
-                                    {member.name}
-                                </h3>
-                                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-snug">
-                                    {member.role}
-                                </p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </section>
+            <OurTeamMemberSection />
 
             {/* ----------------------------- CTA ---------------------------- */}
             <section className="relative pb-24 px-4 sm:px-6 lg:px-8">
