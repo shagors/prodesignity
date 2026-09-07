@@ -18,7 +18,7 @@ export const siteConfig = {
     domain: "prodesignity.com",
     url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://prodesignity.com",
     logo: "/assets/logo/prodesignity-logo.png",
-    ogImage: "/assets/images/Prodesignity-hero-images.jpg",
+    ogImage: "/assets/images/Prodesignity-hero-image.jpg",
     founded: "2021", // TODO: confirm
 
     tagline:
