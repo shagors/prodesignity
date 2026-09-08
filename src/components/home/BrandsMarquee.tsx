@@ -11,73 +11,78 @@ interface Brand {
 
 const brands: Brand[] = [
     {
-        name: "T-Mobile",
-        logo: "https://commons.wikimedia.org/wiki/Special:FilePath/T-Mobile_logo.svg",
+        name: "COLLECTIVE AROMAS Co",
+        logo: "/assets/images/brands/1.png",
     },
     {
-        name: "Wayfair",
-        logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Wayfair_logo.svg",
+        name: "KOXAL",
+        logo: "/assets/images/brands/2.png",
     },
     {
-        name: "Uber",
-        logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Uber_logo_2018.svg",
+        name: "PHEROMEN",
+        logo: "/assets/images/brands/3.png",
     },
     {
-        name: "Amazon",
-        logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Amazon_logo.svg",
+        name: "MUSK&CO.",
+        logo: "/assets/images/brands/4.png",
     },
     {
-        name: "OPPO",
-        logo: "https://commons.wikimedia.org/wiki/Special:FilePath/OPPO_Logo.svg",
+        name: "PATÉLLE",
+        logo: "/assets/images/brands/5.png",
     },
     {
-        name: "Nestlé",
-        // The file used to be "Nestl#U00e9.png". A "#" in a URL starts the
-        // fragment, so the browser only ever requested "/assets/brands/Nestl"
-        // and got a 404. Renamed to a plain ASCII filename.
-        logo: "/assets/brands/nestle.png",
+        name: "عطور كابول",
+        logo: "/assets/images/brands/6.png",
     },
     {
-        name: "Shopify",
-        logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Shopify_logo_2018.svg",
+        name: "COLLECTIVE AROMAS Co.",
+        logo: "/assets/images/brands/7.png",
     },
     {
-        name: "Walmart",
-        logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Walmart_logo_(2025).svg",
+        name: "GLACIER SUISSE",
+        logo: "/assets/images/brands/8.png",
+    },
+    {
+        name: "PAST PARFUMS",
+        logo: "/assets/images/brands/9.png",
+    },
+    {
+        name: "BLED BACKHOME",
+        logo: "/assets/images/brands/10.png",
     },
 ];
 
 export default function BrandsMarquee() {
     return (
-        <section className="relative py-12 bg-white/70 dark:bg-[#070B14] border-y border-border-color dark:border-dark-border-color overflow-hidden select-none transition-colors duration-300 font-sans">
+        <section className="relative py-14 sm:py-10 bg-white/70 dark:bg-[#070B14] border-y border-border-color dark:border-dark-border-color overflow-hidden select-none transition-colors duration-300 font-sans">
             {/* Side Fade Masks for Infinite Horizon Effect */}
-            <div className="absolute top-0 bottom-0 left-0 w-24 sm:w-40 bg-linear-to-r from-white dark:from-[#090D16] to-transparent z-10 pointer-events-none" />
-            <div className="absolute top-0 bottom-0 right-0 w-24 sm:w-40 bg-linear-to-l from-white dark:from-[#090D16] to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 bottom-0 left-0 w-24 sm:w-48 bg-linear-to-r from-white dark:from-[#070B14] to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 bottom-0 right-0 w-24 sm:w-48 bg-linear-to-l from-white dark:from-[#070B14] to-transparent z-10 pointer-events-none" />
 
             {/* Infinite Logo Scroller with Pause on Hover */}
             <Marquee
-                speed={45}
+                speed={40}
                 gradient={false}
                 pauseOnHover={true}
                 pauseOnClick={true}
-                className="overflow-hidden"
+                className="overflow-hidden py-2"
             >
-                <div className="flex items-center gap-12 sm:gap-20 px-6 sm:px-10">
+                <div className="flex items-center gap-5 sm:gap-24 px-6 sm:px-12">
                     {brands.map((brand, index) => (
                         <div
                             key={`${brand.name}-${index}`}
-                            className="relative flex items-center justify-center h-10 sm:h-12 w-28 sm:w-36 transition-all duration-300 cursor-pointer group"
+                            className="relative flex items-center justify-center h-14 sm:h-16 md:h-20 w-36 sm:w-48 md:w-56 transition-all duration-300 cursor-pointer group shrink-0"
                         >
-                            {/* Dark Mode Gradient Border on Hover */}
-                            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-brand-violet/30 via-primary/35 to-brand-blue/40 dark:from-dark-brand-violet/20 dark:via-dark-primary/15 dark:to-dark-brand-blue/35 opacity-0 dark:group-hover:opacity-100 dark:group-hover:scale-150 transition-all duration-300 blur-[2px] " />
+                            {/* Dark Mode Ambient Glow on Hover */}
+                            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-brand-violet/20 via-primary/25 to-brand-blue/30 dark:from-dark-brand-violet/20 dark:via-dark-primary/15 dark:to-dark-brand-blue/30 opacity-0 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300 blur-md pointer-events-none" />
 
-                            {/* Grayscale by default, full real color + scale on hover */}
+                            {/* Logo Image */}
                             <Image
                                 src={brand.logo}
                                 alt={`${brand.name} logo`}
-                                height={48}
-                                width={144}
-                                className="max-h-full max-w-full object-contain filter grayscale opacity-40 contrast-125 dark:invert dark:opacity-40 group-hover:grayscale-0 group-hover:dark:invert-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 ease-out"
+                                height={80}
+                                width={220}
+                                className="max-h-full max-w-full w-auto h-auto object-contain filter grayscale opacity-60 contrast-125 dark:invert dark:opacity-50 group-hover:grayscale-0 group-hover:dark:invert-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 ease-out"
                                 loading="lazy"
                             />
                         </div>

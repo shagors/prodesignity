@@ -111,7 +111,8 @@ export default function DesktopNav({ navLinks }: { navLinks: NavLink[] }) {
             "text-slate-600 dark:text-slate-300",
             "hover:text-primary dark:hover:text-white/70",
             "hover:bg-slate-100/70 dark:hover:bg-slate-800/50",
-            isActive(href) && "text-primary dark:text-white bg-slate-100/70 dark:bg-slate-800/50",
+            isActive(href) &&
+                "text-primary dark:text-white bg-slate-100/70 dark:bg-slate-800/50",
         );
 
     const activeItems =
@@ -162,7 +163,8 @@ export default function DesktopNav({ navLinks }: { navLinks: NavLink[] }) {
                             className={cn(
                                 linkClass(link.href),
                                 "inline-flex items-center gap-1.5",
-                                open && "text-primary dark:text-white bg-slate-100/70 dark:bg-slate-800/50",
+                                open &&
+                                    "text-primary dark:text-white bg-slate-100/70 dark:bg-slate-800/50",
                             )}
                         >
                             {link.name}
@@ -182,9 +184,6 @@ export default function DesktopNav({ navLinks }: { navLinks: NavLink[] }) {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -6 }}
                                     transition={{ duration: 0.16 }}
-                                    // pt-2 is a deliberate transparent bridge:
-                                    // without it the pointer leaves the trigger
-                                    // before it reaches the panel.
                                     className="absolute left-0 top-full pt-2 flex items-start z-50"
                                 >
                                     {/* ---- Level 1: groups ---- */}
@@ -268,31 +267,36 @@ export default function DesktopNav({ navLinks }: { navLinks: NavLink[] }) {
                                         key={activeGroup}
                                         initial={{ opacity: 0, x: -8 }}
                                         animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -8 }}
                                         transition={{ duration: 0.16 }}
-                                        className="ml-2 w-72 p-2 mt-6 rounded-2xl bg-white/95 dark:bg-[#0d1220]/95 backdrop-blur-xl border border-border-color dark:border-dark-border-color shadow-2xl shadow-slate-900/10 dark:shadow-black/50"
+                                        className="ml-2 w-72 p-2 rounded-2xl bg-white/95 dark:bg-[#0d1220]/95 backdrop-blur-xl border border-border-color dark:border-dark-border-color shadow-2xl shadow-slate-900/10 dark:shadow-black/50"
                                         role="menu"
                                     >
-                                        {activeItems.map((item) => (
-                                            <Link
-                                                key={item.slug}
-                                                href={item.href}
-                                                role="menuitem"
-                                                className="block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-                                            >
-                                                {item.title}
-                                            </Link>
-                                        ))}
+                                        <div className="space-y-0.5">
+                                            {activeItems.map((item) => (
+                                                <Link
+                                                    key={item.slug}
+                                                    href={item.href}
+                                                    role="menuitem"
+                                                    className="block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                                                >
+                                                    {item.title}
+                                                </Link>
+                                            ))}
+                                        </div>
 
-                                        <Link
-                                            href={SERVICES_BASE_PATH}
-                                            className="mt-1 flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-primary dark:text-dark-primary hover:bg-primary/10 transition-colors"
-                                        >
-                                            Our service &amp; team
-                                            <ArrowRight
-                                                className="w-3.5 h-3.5"
-                                                aria-hidden="true"
-                                            />
-                                        </Link>
+                                        <div className="pt-2 mt-2 border-t border-slate-100 dark:border-slate-800/80">
+                                            <Link
+                                                href={SERVICES_BASE_PATH}
+                                                className="flex items-center justify-between gap-2 px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-primary dark:text-dark-primary hover:bg-primary/10 transition-colors"
+                                            >
+                                                Our service &amp; team
+                                                <ArrowRight
+                                                    className="w-3.5 h-3.5"
+                                                    aria-hidden="true"
+                                                />
+                                            </Link>
+                                        </div>
                                     </motion.div>
                                 </motion.div>
                             )}
