@@ -1,5 +1,5 @@
 /**
- * app/_components/JsonLd.tsx
+ * src/components/home/JsonLd.tsx (or app/_components/JsonLd.tsx)
  * ---------------------------------------------------------------------------
  * Renders a structured-data block into the HTML.
  *
@@ -8,7 +8,41 @@
  * that do not execute JavaScript — which includes several AI crawlers — never
  * see client-injected JSON-LD.
  */
-export default function JsonLd({ data }: { data: object }) {
+
+export const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://prodesignity.com/#organization",
+    name: "ProDesignity",
+    url: "https://prodesignity.com",
+    logo: "https://prodesignity.com/assets/logo/prodesignity-logo.png",
+    sameAs: [
+        "https://www.linkedin.com/company/prodesignity",
+        "https://www.instagram.com/prodesignity",
+        "https://x.com/prodesignity",
+        "https://www.facebook.com/prodesignity",
+    ],
+    contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+1-XXX-XXX-XXXX", // update with your business contact
+        contactType: "customer service",
+        availableLanguage: ["English"],
+    },
+    address: {
+        "@type": "PostalAddress",
+        streetAddress: "Your Street Address",
+        addressLocality: "City",
+        addressRegion: "State/Region",
+        postalCode: "Postal Code",
+        addressCountry: "US",
+    },
+};
+
+export default function JsonLd({
+    data = organizationSchema,
+}: {
+    data?: object;
+}) {
     return (
         <script
             type="application/ld+json"

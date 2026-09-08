@@ -30,7 +30,7 @@ export const siteConfig = {
      * — the three places AI assistants read when deciding how to describe you.
      */
     description:
-        "ProDesignity is a 3D product visualization and packaging design studio that produces photorealistic product CGI, 3D product renders, product animation, and conversion-focused Amazon A+ and Shopify listing visuals for perfume, cosmetics, skincare, beverage and consumer-goods brands in the USA, UK and Europe.",
+        "ProDesignity creates photorealistic 3D product renders, CGI animations, and packaging designs that drive conversions for DTC, Shopify, and Amazon brands.",
 
     // --- Contact -----------------------------------------------------------
     email: "info@prodesignity.com",

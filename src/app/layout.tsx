@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
 
     title: {
-        default: `${siteConfig.name} — 3D Product Visualization, Packaging Design & Product CGI Studio`,
+        default: `${siteConfig.name} | 3D Product Visualization & Packaging Studio`,
         template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
