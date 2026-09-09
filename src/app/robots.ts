@@ -1,4 +1,7 @@
 // src/app/robots.ts
+/**
+ * Prodesignity - Robots Configuration
+ */
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 
