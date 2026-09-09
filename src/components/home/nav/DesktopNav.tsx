@@ -115,9 +115,6 @@ export default function DesktopNav({ navLinks }: { navLinks: NavLink[] }) {
                 "text-primary dark:text-white bg-slate-100/70 dark:bg-slate-800/50",
         );
 
-    const activeItems =
-        SERVICE_MENU.find((group) => group.slug === activeGroup)?.items ?? [];
-
     return (
         <nav
             className="hidden md:flex items-center space-x-1 lg:space-x-2"
@@ -171,7 +168,7 @@ export default function DesktopNav({ navLinks }: { navLinks: NavLink[] }) {
                             <ChevronDown
                                 className={cn(
                                     "w-3.5 h-3.5 transition-transform duration-200",
-                                    open && "rotate-180",
+                                    open && "rotate-180 relative",
                                 )}
                                 aria-hidden="true"
                             />
@@ -188,65 +185,134 @@ export default function DesktopNav({ navLinks }: { navLinks: NavLink[] }) {
                                 >
                                     {/* ---- Level 1: groups ---- */}
                                     <div
-                                        className="w-64 p-2 rounded-2xl bg-white/95 dark:bg-[#0d1220]/95 backdrop-blur-xl border border-border-color dark:border-dark-border-color shadow-2xl shadow-slate-900/10 dark:shadow-black/50"
+                                        className="relative w-64 p-2 rounded-2xl bg-white/95 dark:bg-[#0d1220]/95 backdrop-blur-xl border border-border-color dark:border-dark-border-color shadow-2xl shadow-slate-900/10 dark:shadow-black/50"
                                         role="menu"
                                     >
                                         {SERVICE_MENU.map((group) => {
                                             const selected =
                                                 group.slug === activeGroup;
                                             return (
-                                                <button
+                                                <div
                                                     key={group.slug}
-                                                    type="button"
-                                                    role="menuitem"
-                                                    onMouseEnter={() =>
-                                                        setActiveGroup(
-                                                            group.slug,
-                                                        )
-                                                    }
-                                                    onFocus={() =>
-                                                        setActiveGroup(
-                                                            group.slug,
-                                                        )
-                                                    }
-                                                    onKeyDown={(event) => {
-                                                        if (
-                                                            event.key ===
-                                                            "ArrowRight"
-                                                        ) {
-                                                            event.preventDefault();
+                                                    className="relative"
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        role="menuitem"
+                                                        onMouseEnter={() =>
                                                             setActiveGroup(
                                                                 group.slug,
-                                                            );
+                                                            )
                                                         }
-                                                    }}
-                                                    className={cn(
-                                                        "w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-left transition-colors",
-                                                        selected
-                                                            ? "bg-slate-100 dark:bg-slate-800/70"
-                                                            : "hover:bg-slate-50 dark:hover:bg-slate-800/40",
-                                                    )}
-                                                >
-                                                    <span className="w-8 h-8 rounded-lg bg-primary/10 dark:bg-dark-primary/15 text-primary dark:text-dark-primary flex items-center justify-center shrink-0">
-                                                        <ServiceIcon
-                                                            name={group.icon}
-                                                            className="w-4 h-4"
+                                                        onFocus={() =>
+                                                            setActiveGroup(
+                                                                group.slug,
+                                                            )
+                                                        }
+                                                        onKeyDown={(event) => {
+                                                            if (
+                                                                event.key ===
+                                                                "ArrowRight"
+                                                            ) {
+                                                                event.preventDefault();
+                                                                setActiveGroup(
+                                                                    group.slug,
+                                                                );
+                                                            }
+                                                        }}
+                                                        className={cn(
+                                                            "w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-left transition-colors",
+                                                            selected
+                                                                ? "bg-slate-100 dark:bg-slate-800/70"
+                                                                : "hover:bg-slate-50 dark:hover:bg-slate-800/40",
+                                                        )}
+                                                    >
+                                                        <span className="w-8 h-8 rounded-lg bg-primary/10 dark:bg-dark-primary/15 text-primary dark:text-dark-primary flex items-center justify-center shrink-0">
+                                                            <ServiceIcon
+                                                                name={
+                                                                    group.icon
+                                                                }
+                                                                className="w-4 h-4"
+                                                            />
+                                                        </span>
+                                                        <span className="flex-1 min-w-0">
+                                                            <span className="block text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
+                                                                {group.title}
+                                                            </span>
+                                                            <span className="block text-[11px] text-slate-400 dark:text-slate-500 truncate">
+                                                                {
+                                                                    group.items
+                                                                        .length
+                                                                }{" "}
+                                                                services
+                                                            </span>
+                                                        </span>
+                                                        <ChevronRight
+                                                            className="w-4 h-4 text-slate-400 shrink-0"
+                                                            aria-hidden="true"
                                                         />
-                                                    </span>
-                                                    <span className="flex-1 min-w-0">
-                                                        <span className="block text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
-                                                            {group.title}
-                                                        </span>
-                                                        <span className="block text-[11px] text-slate-400 dark:text-slate-500 truncate">
-                                                            {group.items.length}{" "}
-                                                            services
-                                                        </span>
-                                                    </span>
-                                                    <ChevronRight
-                                                        className="w-4 h-4 text-slate-400 shrink-0"
-                                                        aria-hidden="true"
-                                                    />
-                                                </button>
+                                                    </button>
+
+                                                    {/* ---- Level 2: services in the hovered group ---- */}
+                                                    {selected && (
+                                                        <motion.div
+                                                            initial={{
+                                                                opacity: 0,
+                                                                x: -8,
+                                                            }}
+                                                            animate={{
+                                                                opacity: 1,
+                                                                x: 0,
+                                                            }}
+                                                            exit={{
+                                                                opacity: 0,
+                                                                x: -8,
+                                                            }}
+                                                            transition={{
+                                                                duration: 0.16,
+                                                            }}
+                                                            className="absolute left-[calc(100%+0.5rem)] top-0 w-72 p-2 rounded-2xl bg-white/95 dark:bg-[#0d1220]/95 backdrop-blur-xl border border-border-color dark:border-dark-border-color shadow-2xl shadow-slate-900/10 dark:shadow-black/50"
+                                                            role="menu"
+                                                        >
+                                                            <div className="space-y-0.5">
+                                                                {group.items.map(
+                                                                    (item) => (
+                                                                        <Link
+                                                                            key={
+                                                                                item.slug
+                                                                            }
+                                                                            href={
+                                                                                item.href
+                                                                            }
+                                                                            role="menuitem"
+                                                                            className="block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                                                                        >
+                                                                            {
+                                                                                item.title
+                                                                            }
+                                                                        </Link>
+                                                                    ),
+                                                                )}
+                                                            </div>
+
+                                                            <div className="pt-2 mt-2 border-t border-slate-100 dark:border-slate-800/80">
+                                                                <Link
+                                                                    href={
+                                                                        SERVICES_BASE_PATH
+                                                                    }
+                                                                    className="flex items-center justify-between gap-2 px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-primary dark:text-dark-primary hover:bg-primary/10 transition-colors"
+                                                                >
+                                                                    Our service
+                                                                    &amp; team
+                                                                    <ArrowRight
+                                                                        className="w-3.5 h-3.5"
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                </Link>
+                                                            </div>
+                                                        </motion.div>
+                                                    )}
+                                                </div>
                                             );
                                         })}
 
@@ -261,43 +327,6 @@ export default function DesktopNav({ navLinks }: { navLinks: NavLink[] }) {
                                             />
                                         </Link>
                                     </div>
-
-                                    {/* ---- Level 2: services in the hovered group ---- */}
-                                    <motion.div
-                                        key={activeGroup}
-                                        initial={{ opacity: 0, x: -8 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -8 }}
-                                        transition={{ duration: 0.16 }}
-                                        className="ml-2 w-72 p-2 rounded-2xl bg-white/95 dark:bg-[#0d1220]/95 backdrop-blur-xl border border-border-color dark:border-dark-border-color shadow-2xl shadow-slate-900/10 dark:shadow-black/50"
-                                        role="menu"
-                                    >
-                                        <div className="space-y-0.5">
-                                            {activeItems.map((item) => (
-                                                <Link
-                                                    key={item.slug}
-                                                    href={item.href}
-                                                    role="menuitem"
-                                                    className="block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-                                                >
-                                                    {item.title}
-                                                </Link>
-                                            ))}
-                                        </div>
-
-                                        <div className="pt-2 mt-2 border-t border-slate-100 dark:border-slate-800/80">
-                                            <Link
-                                                href={SERVICES_BASE_PATH}
-                                                className="flex items-center justify-between gap-2 px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-primary dark:text-dark-primary hover:bg-primary/10 transition-colors"
-                                            >
-                                                Our service &amp; team
-                                                <ArrowRight
-                                                    className="w-3.5 h-3.5"
-                                                    aria-hidden="true"
-                                                />
-                                            </Link>
-                                        </div>
-                                    </motion.div>
                                 </motion.div>
                             )}
                         </AnimatePresence>
