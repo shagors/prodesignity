@@ -9,9 +9,7 @@ import {
     ChevronRight,
     Clock,
     Download,
-    Globe,
     Loader2,
-    MessageSquare,
     Video,
 } from "lucide-react";
 

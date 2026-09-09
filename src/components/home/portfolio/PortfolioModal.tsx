@@ -34,23 +34,23 @@ import type { PortfolioItem } from "@/data/portfolioData";
 function Media({ item }: { item: PortfolioItem }) {
     switch (item.kind) {
         case "video":
-            return <VideoMedia item={item} />;
+            return <VideoMedia key={item.id} item={item} />;
         case "webdev":
-            return <WebDevMedia item={item} />;
+            return <WebDevMedia key={item.id} item={item} />;
         case "shopify":
-            return <ShopifyMedia item={item} />;
+            return <ShopifyMedia key={item.id} item={item} />;
         case "webapp":
-            return <WebAppMedia item={item} />;
+            return <WebAppMedia key={item.id} item={item} />;
         case "packaging":
-            return <PackagingMedia item={item} />;
+            return <PackagingMedia key={item.id} item={item} />;
         case "amazon":
-            return <AmazonMedia item={item} />;
+            return <AmazonMedia key={item.id} item={item} />;
         case "product3d":
-            return <Product3DMedia item={item} />;
+            return <Product3DMedia key={item.id} item={item} />;
         case "marketing":
-            return <MarketingMedia item={item} />;
+            return <MarketingMedia key={item.id} item={item} />;
         case "seo":
-            return <SeoMedia item={item} />;
+            return <SeoMedia key={item.id} item={item} />;
         default:
             return null;
     }

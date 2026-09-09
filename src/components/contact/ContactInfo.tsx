@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { MapPin, Globe, Mail, MessageSquare } from "lucide-react";
+import { MapPin, Globe, Mail } from "lucide-react";
 
 interface ContactInfoProps {
     fadeInVariant: Variants;

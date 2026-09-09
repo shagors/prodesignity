@@ -50,6 +50,18 @@ const brands: Brand[] = [
         name: "BLED BACKHOME",
         logo: "/assets/images/brands/10.png",
     },
+    {
+        name: "GIVA",
+        logo: "/assets/images/brands/11.png",
+    },
+    {
+        name: "TOURI",
+        logo: "/assets/images/brands/12.png",
+    },
+    {
+        name: "OLLA",
+        logo: "/assets/images/brands/13.png",
+    },
 ];
 
 export default function BrandsMarquee() {

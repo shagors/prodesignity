@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { type ImageProps } from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ImageOff } from "lucide-react";
 
 /* ------------------------------------------------------------------
@@ -34,9 +34,12 @@ export default function SmartImage({
     ...rest
 }: SmartImageProps) {
     const [failed, setFailed] = useState(!src);
+    const [prevSrc, setPrevSrc] = useState(src);
 
-    // A new src deserves a fresh attempt.
-    useEffect(() => setFailed(!src), [src]);
+    if (src !== prevSrc) {
+        setPrevSrc(src);
+        setFailed(!src);
+    }
 
     if (failed) {
         return (

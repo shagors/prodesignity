@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     ExternalLink,
     Gauge,
@@ -41,7 +41,6 @@ const DEVICE_ICON = {
 
 export function WebDevMedia({ item }: { item: WebDevWork }) {
     const [active, setActive] = useState(0);
-    useEffect(() => setActive(0), [item.id]);
 
     const shot = item.deviceShots[active];
     const Icon = DEVICE_ICON[shot.device];
@@ -241,7 +240,6 @@ export function ShopifyBody({ item }: { item: ShopifyWork }) {
 
 export function WebAppMedia({ item }: { item: WebAppWork }) {
     const [active, setActive] = useState(0);
-    useEffect(() => setActive(0), [item.id]);
 
     const screen = item.screens[active];
 

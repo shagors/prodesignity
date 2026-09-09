@@ -5,7 +5,7 @@ import { motion, type Variants } from "framer-motion";
 import ContactInfo from "@/components/contact/ContactInfo";
 import ContactForm from "@/components/contact/ContactForm";
 import BookACallSection from "@/components/contact/BookACallSection";
-import { ChevronRight, Mail } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 const fadeInUpVariant: Variants = {
     hidden: {
