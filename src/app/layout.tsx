@@ -3,6 +3,8 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 import Footer from "@/components/home/Footer";
 import Header from "@/components/home/Header";
+import ScrollToTop from "@/components/ScrollToTop";
+import PageTransition from "@/components/PageTransition";
 import JsonLd from "@/components/home/JsonLd";
 import { ThemeProvider } from "next-themes";
 import { siteConfig } from "@/config/site";
@@ -95,8 +97,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 >
                     <Header />
 
-                    {children}
+                    <PageTransition>
+                        {children}
+                    </PageTransition>
 
+                    <ScrollToTop />
                     <Footer />
                 </ThemeProvider>
             </body>

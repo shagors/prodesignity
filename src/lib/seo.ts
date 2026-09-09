@@ -313,6 +313,81 @@ export function serviceSchema(service: {
     };
 }
 
+/**
+ * Structured data for one blog post.
+ *
+ * Emits a `BlogPosting` wired to the Organization as publisher and to a Person
+ * as author. `wordCount` and `articleSection` are cheap to provide and are
+ * exactly the fields an AI crawler uses to judge whether a page is a
+ * substantial article or a thin marketing page.
+ *
+ * BreadcrumbList and FAQPage are added by the page so this stays composable,
+ * matching serviceSchema() above.
+ */
+export function articleSchema(article: {
+    title: string;
+    description: string;
+    path: string;
+    image: string;
+    datePublished: string;
+    dateModified?: string;
+    author: { name: string; role: string };
+    keywords: string[];
+    section: string;
+    wordCount: number;
+}) {
+    const url = absoluteUrl(article.path);
+
+    return {
+        "@type": "BlogPosting",
+        "@id": `${url}#article`,
+        headline: article.title,
+        description: article.description,
+        url,
+        mainEntityOfPage: { "@type": "WebPage", "@id": `${url}#webpage` },
+        image: [absoluteUrl(article.image)],
+        datePublished: article.datePublished,
+        dateModified: article.dateModified ?? article.datePublished,
+        author: {
+            "@type": "Person",
+            name: article.author.name,
+            jobTitle: article.author.role,
+            worksFor: { "@id": ORG_ID },
+        },
+        publisher: { "@id": ORG_ID },
+        isPartOf: { "@id": BLOG_ID },
+        articleSection: article.section,
+        keywords: article.keywords.join(", "),
+        wordCount: article.wordCount,
+        inLanguage: "en",
+    };
+}
+
+const BLOG_ID = absoluteUrl("/blog/#blog");
+
+/** The /blog listing itself, as a Blog entity holding every post. */
+export function blogSchema(
+    posts: { title: string; path: string; datePublished: string }[],
+) {
+    return {
+        "@type": "Blog",
+        "@id": BLOG_ID,
+        url: absoluteUrl("/blog"),
+        name: `${siteConfig.name} Journal`,
+        description: `Practical notes on 3D product visualization, packaging, e-commerce design and product CGI from the ${siteConfig.name} studio.`,
+        publisher: { "@id": ORG_ID },
+        isPartOf: { "@id": SITE_ID },
+        inLanguage: "en",
+        blogPost: posts.map((post) => ({
+            "@type": "BlogPosting",
+            "@id": `${absoluteUrl(post.path)}#article`,
+            headline: post.title,
+            url: absoluteUrl(post.path),
+            datePublished: post.datePublished,
+        })),
+    };
+}
+
 /** Wraps any set of entities in the @graph envelope the site already uses. */
 export function graph(...entities: object[]) {
     return {

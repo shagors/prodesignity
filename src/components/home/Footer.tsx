@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Logo from "./Logo";
 
 const serviceLinks = [
     { name: "Short-form & Reels Editing", href: "/services" },
@@ -11,6 +11,7 @@ const serviceLinks = [
 const companyLinks = [
     { name: "About ProDesignity", href: "/about" },
     { name: "Services Portfolio", href: "/services" },
+    { name: "Journal", href: "/blog" },
     { name: "Contact & Inquiries", href: "/contact" },
     { name: "Careers", href: "/careers" },
     { name: "Privacy Policy", href: "/privacy-policy" },
@@ -20,40 +21,14 @@ const companyLinks = [
 export default function Footer() {
     return (
         <footer className="bg-card-bg dark:bg-dark-card-bg border-t border-border-color dark:border-dark-border-color text-slate-600 dark:text-slate-400 transition-colors duration-300 font-sans">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-border-color dark:border-dark-border-color">
                     {/* Brand Identity Column */}
                     <div className="space-y-4">
                         {/* Brand Logo dark mode and light mode image */}
-                        <Link
-                            href="/"
-                            className="flex items-center group select-none"
-                        >
-                            <div className="relative h-8 sm:h-9 md:h-10 w-auto transition-transform duration-200 group-hover:scale-105">
-                                {/* Dark Mode SVG Logo. Leading "/" is required
-                                    — see the note in Header.tsx. */}
-                                <Image
-                                                                     src="/assets/logo/prodesinity-logo-dark.svg"
-                                                                     width="100"
-                                                                     height="40"
-                                                                     alt="ProDesignity Logo"
-                                                                     className="hidden dark:block h-full w-auto object-contain"
-                                                                     style={{ width: 'auto', height: 'auto' }}
-                                                                     priority
-                                                                 />
 
-                                                                 {/* Light Mode SVG Logo */}
-                                                                 <Image
-                                                                     src="/assets/logo/prodesignity-logo-light.svg"
-                                                                     width="100"
-                                                                     height="40"
-                                                                     alt="ProDesignity Logo"
-                                                                     className="block dark:hidden h-full w-auto object-contain"
-                                                                     style={{ width: 'auto', height: 'auto' }}
-                                                                     priority
-                                                                 />
-                            </div>
-                        </Link>
+                        <Logo />
+
                         <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm">
                             High-converting video editing, modern visual assets,
                             and brand design built to scale creator and
