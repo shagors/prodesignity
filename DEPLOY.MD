@@ -19,7 +19,7 @@ This document describes the automated deployment pipeline that builds the static
 
 The deployment is triggered on every push to the `main` branch (or manually via `workflow_dispatch`). It:
 
-1. Builds the static site using Node.js (`npm run build`).
+1. Builds the static site using Node.js (`pnpm run build`).
 2. Packages the built output (`out/`) into `site.zip`.
 3. Injects a one‑time authentication token into a PHP extraction script.
 4. Uploads both `site.zip` and the extraction script to the server via FTPS.

@@ -22,6 +22,6 @@ Prodesignity is a high-performance agency website built with Next.js, TypeScript
 - **Images:** Always use the `SmartImage` wrapper to handle broken assets gracefully.
 
 ## Workflows
-- **Linting:** Run `npm run lint` before committing.
-- **Building:** Run `npm run build` to verify production readiness.
+- **Linting:** Run `pnpm run lint` before committing.
+- **Building:** Run `pnpm run build` to verify production readiness.
 - **Portfolios:** New portfolio types should be added to `portfolioData.ts` and mapped in `PortfolioModal.tsx`.
