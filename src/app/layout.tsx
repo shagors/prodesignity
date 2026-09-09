@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: `${siteConfig.name} — 3D Product Visualization & Packaging Design`,
+        title: `${siteConfig.name} — E-commerce Growth Partner`,
         site: "@prodesignity",
         creator: "@prodesignity",
         description: siteConfig.description,
