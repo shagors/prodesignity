@@ -61,23 +61,25 @@ export default function Header() {
                                 URL, so it 404s on every nested route
                                 (/contact/assets/... etc). */}
                             <Image
-                                src="/assets/logo/prodesinity-logo-dark.svg"
-                                width="100"
-                                height="40"
-                                alt="ProDesignity Logo"
-                                className="hidden dark:block h-full w-auto object-contain"
-                                priority
-                            />
+                                                                src="/assets/logo/prodesinity-logo-dark.svg"
+                                                                width="100"
+                                                                height="40"
+                                                                alt="ProDesignity Logo"
+                                                                className="hidden dark:block h-full w-auto object-contain"
+                                                                style={{ width: 'auto', height: 'auto' }}
+                                                                priority
+                                                            />
 
-                            {/* Light Mode SVG Logo */}
-                            <Image
-                                src="/assets/logo/prodesignity-logo-light.svg"
-                                width="100"
-                                height="40"
-                                alt="ProDesignity Logo"
-                                className="block dark:hidden h-full w-auto object-contain"
-                                priority
-                            />
+                                                            {/* Light Mode SVG Logo */}
+                                                            <Image
+                                                                src="/assets/logo/prodesignity-logo-light.svg"
+                                                                width="100"
+                                                                height="40"
+                                                                alt="ProDesignity Logo"
+                                                                className="block dark:hidden h-full w-auto object-contain"
+                                                                style={{ width: 'auto', height: 'auto' }}
+                                                                priority
+                                                            />
                         </div>
                     </Link>
 

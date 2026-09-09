@@ -1812,7 +1812,7 @@ export const SERVICES: Service[] = [
         },
     },
     {
-        slug: "content-marketing",
+        slug: "paid-advertising",
         title: "Paid Advertising",
         group: "marketing-growth",
         icon: "FileText",

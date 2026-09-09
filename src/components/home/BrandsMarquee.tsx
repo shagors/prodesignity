@@ -92,9 +92,8 @@ export default function BrandsMarquee() {
                             <Image
                                 src={brand.logo}
                                 alt={`${brand.name} logo`}
-                                height={80}
-                                width={220}
-                                className="max-h-full max-w-full w-auto h-auto object-contain filter grayscale opacity-60 contrast-125 dark:invert dark:opacity-50 group-hover:grayscale-0 group-hover:dark:invert-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 ease-out"
+                                fill
+                                className="object-contain filter grayscale opacity-60 contrast-125 dark:invert dark:opacity-50 group-hover:grayscale-0 group-hover:dark:invert-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 ease-out"
                                 loading="lazy"
                             />
                         </div>

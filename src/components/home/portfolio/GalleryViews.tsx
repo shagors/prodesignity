@@ -395,7 +395,7 @@ export function MarketingMedia({ item }: { item: MarketingWork }) {
                     const won = !c.result.toLowerCase().includes("cut");
                     return (
                         <figure
-                            key={c.label}
+                            key={`${c.src}-${c.label}`}
                             className="shrink-0 snap-start w-[62%] sm:w-[40%] lg:w-[30%]"
                         >
                             <div

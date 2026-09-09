@@ -78,8 +78,7 @@ const TeamMembersSData: TeamMember[] = [
     },
 ];
 
-export const TEAM_MEMBERS = shiftAndShuffle(TeamMembersSData);
-/** Index the slider opens on: the founder, if there is one. */
+export const TEAM_MEMBERS = TeamMembersSData;
 export const TEAM_INITIAL_INDEX = Math.max(
     TEAM_MEMBERS.findIndex((m) => m.lead),
     0,

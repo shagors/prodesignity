@@ -33,23 +33,25 @@ export default function Footer() {
                                 {/* Dark Mode SVG Logo. Leading "/" is required
                                     — see the note in Header.tsx. */}
                                 <Image
-                                    src="/assets/logo/prodesinity-logo-dark.svg"
-                                    width="100"
-                                    height="40"
-                                    alt="ProDesignity Logo"
-                                    className="hidden dark:block h-full w-auto object-contain"
-                                    priority
-                                />
+                                                                     src="/assets/logo/prodesinity-logo-dark.svg"
+                                                                     width="100"
+                                                                     height="40"
+                                                                     alt="ProDesignity Logo"
+                                                                     className="hidden dark:block h-full w-auto object-contain"
+                                                                     style={{ width: 'auto', height: 'auto' }}
+                                                                     priority
+                                                                 />
 
-                                {/* Light Mode SVG Logo */}
-                                <Image
-                                    src="/assets/logo/prodesignity-logo-light.svg"
-                                    width="100"
-                                    height="40"
-                                    alt="ProDesignity Logo"
-                                    className="block dark:hidden h-full w-auto object-contain"
-                                    priority
-                                />
+                                                                 {/* Light Mode SVG Logo */}
+                                                                 <Image
+                                                                     src="/assets/logo/prodesignity-logo-light.svg"
+                                                                     width="100"
+                                                                     height="40"
+                                                                     alt="ProDesignity Logo"
+                                                                     className="block dark:hidden h-full w-auto object-contain"
+                                                                     style={{ width: 'auto', height: 'auto' }}
+                                                                     priority
+                                                                 />
                             </div>
                         </Link>
                         <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm">
