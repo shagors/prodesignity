@@ -40,8 +40,16 @@ export const metadata: Metadata = {
         title: `${siteConfig.name} | E-commerce Growth Partner`,
         description: siteConfig.description,
         locale: "en_US",
-        images: [{ url: siteConfig.ogImage, width: 1200, height: 630 }],
+        images: [
+            {
+                url: siteConfig.ogImage,
+                width: 1200,
+                height: 630,
+                alt: `${siteConfig.name} | E-commerce Growth Partner`,
+            },
+        ],
     },
+
     twitter: {
         card: "summary_large_image",
         title: `${siteConfig.name} | E-commerce Growth Partner`,
