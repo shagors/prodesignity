@@ -47,7 +47,7 @@ export function WebDevMedia({ item }: { item: WebDevWork }) {
 
     return (
         <div className="w-full bg-slate-950">
-            <div className="relative aspect-16/9 w-full overflow-hidden bg-black">
+            <div className="relative aspect-video w-full overflow-hidden bg-black">
                 <SmartImage
                     key={shot.src}
                     src={shot.src}
@@ -69,7 +69,7 @@ export function WebDevMedia({ item }: { item: WebDevWork }) {
             </div>
 
             {/* Device switcher + live scores */}
-            <div className="flex items-center gap-2 p-3 bg-slate-900/90 border-t border-white/10 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-center gap-2 p-3 bg-slate-900/90 border-t border-white/10 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
                 {item.deviceShots.map((s, i) => {
                     const DIcon = DEVICE_ICON[s.device];
                     return (
@@ -170,8 +170,8 @@ export function ShopifyMedia({ item }: { item: ShopifyWork }) {
         <div className="w-full bg-slate-950">
             {/* Tall capture in a scrollable window — this is a storefront,
                 so let people actually scroll it rather than crop it. */}
-            <div className="relative h-[420px] sm:h-[520px] w-full overflow-y-auto [scrollbar-width:thin]">
-                <div className="relative w-full min-h-[1400px]">
+            <div className="relative h-105 sm:h-130 w-full overflow-y-auto scrollbar-thin">
+                <div className="relative w-full min-h-350">
                     <SmartImage
                         src={item.longThumbnail}
                         alt={`${item.title} — full page`}
@@ -245,7 +245,7 @@ export function WebAppMedia({ item }: { item: WebAppWork }) {
 
     return (
         <div className="w-full bg-[#0b0f1a]">
-            <div className="relative aspect-16/9 w-full overflow-hidden bg-black">
+            <div className="relative aspect-video w-full overflow-hidden bg-black">
                 <SmartImage
                     key={screen.src}
                     src={screen.src}
@@ -262,7 +262,7 @@ export function WebAppMedia({ item }: { item: WebAppWork }) {
             </div>
 
             {/* Screen tabs */}
-            <div className="flex gap-2 p-3 overflow-x-auto bg-[#070b14] border-t border-white/10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex gap-2 p-3 overflow-x-auto bg-[#070b14] border-t border-white/10 scrollbar-none [&::-webkit-scrollbar]:hidden">
                 {item.screens.map((s, i) => (
                     <button
                         key={s.label}
