@@ -1,0 +1,32 @@
+services:
+    mysql:
+        image: mysql:8.0
+        container_name: prodesignity_mysql
+        volumes:
+            - prodesignity_mysql_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        env_file:
+            - .env.dev
+        networks:
+            - prodesignityDbNetwork
+
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: prodesignity_phpmyadmin
+        ports:
+            - "8183:80"
+        env_file:
+            - .env.dev
+        depends_on:
+            - mysql
+        networks:
+            - prodesignityDbNetwork
+
+networks:
+    prodesignityDbNetwork:
+        driver: bridge
+
+volumes:
+    prodesignity_mysql_data:
+        name: prodesignity_mysql_data
