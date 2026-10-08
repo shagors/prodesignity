@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
+    Briefcase,
     LayoutDashboard,
     LogOut,
     FolderKanban,
@@ -12,7 +13,16 @@ import {
 } from "lucide-react";
 import Logo from "@/components/home/Logo";
 import ThemeToggle from "@/components/ThemeToggle";
-import { clearAuthUser, getAuthUser, type AuthUser } from "@/lib/auth";
+import { staffInitials } from "@/components/team/StaffAvatar";
+import MyApplications from "@/components/dashboard/MyApplications";
+import ProfilePicturePicker from "@/components/dashboard/ProfilePicturePicker";
+import {
+    getCurrentUser,
+    notifyAuthChange,
+    signOut,
+    type AuthUser,
+} from "@/lib/auth";
+import { mediaUrl } from "@/config/api";
 import { siteConfig } from "@/config/site";
 
 const nav = [
@@ -27,6 +37,11 @@ const nav = [
         icon: FolderKanban,
     },
     {
+        name: "Applications",
+        href: `${siteConfig.dashboardPath}#applications`,
+        icon: Briefcase,
+    },
+    {
         name: "Settings",
         href: `${siteConfig.dashboardPath}#settings`,
         icon: Settings,
@@ -37,19 +52,26 @@ export default function DashboardShell() {
     const router = useRouter();
     const [user, setUser] = useState<AuthUser | null>(null);
     const [ready, setReady] = useState(false);
+    const [pictureFailed, setPictureFailed] = useState(false);
 
     useEffect(() => {
-        const current = getAuthUser();
-        if (!current) {
-            router.replace(siteConfig.loginPath);
-            return;
-        }
-        setUser(current);
-        setReady(true);
+        let cancelled = false;
+        getCurrentUser().then((current) => {
+            if (cancelled) return;
+            if (!current) {
+                router.replace(siteConfig.loginPath);
+                return;
+            }
+            setUser(current);
+            setReady(true);
+        });
+        return () => {
+            cancelled = true;
+        };
     }, [router]);
 
-    const handleLogout = () => {
-        clearAuthUser();
+    const handleLogout = async () => {
+        await signOut();
         router.push(siteConfig.loginPath);
     };
 
@@ -72,7 +94,7 @@ export default function DashboardShell() {
                         <ThemeToggle />
                         <button
                             type="button"
-                            onClick={handleLogout}
+                            onClick={() => void handleLogout()}
                             className="inline-flex items-center gap-2 rounded-xl border border-border-color px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-dark-border-color dark:text-slate-200 dark:hover:bg-slate-800"
                         >
                             <LogOut className="h-4 w-4" />
@@ -99,18 +121,31 @@ export default function DashboardShell() {
                 <main className="space-y-8">
                     <section className="rounded-3xl border border-border-color bg-white p-6 shadow-sm dark:border-dark-border-color dark:bg-slate-900/50 sm:p-8">
                         <div className="mb-2 flex items-center gap-3">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary dark:bg-dark-primary/15 dark:text-dark-primary">
-                                <User className="h-5 w-5" />
-                            </div>
+                            {user.picture && !pictureFailed ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                    src={mediaUrl(user.picture) ?? user.picture}
+                                    alt=""
+                                    referrerPolicy="no-referrer"
+                                    onError={() => setPictureFailed(true)}
+                                    className="h-10 w-10 rounded-xl object-cover"
+                                />
+                            ) : (
+                                <div
+                                    aria-hidden="true"
+                                    className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-primary to-brand-violet text-sm font-black text-white"
+                                >
+                                    {staffInitials(user.name) || (
+                                        <User className="h-5 w-5" />
+                                    )}
+                                </div>
+                            )}
                             <div>
                                 <h1 className="text-xl font-black tracking-tight sm:text-2xl">
                                     Hi, {user.name}
                                 </h1>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    {user.email}
-                                    {user.provider === "google"
-                                        ? " · Google"
-                                        : null}
+                                    {user.email} · Google
                                 </p>
                             </div>
                         </div>
@@ -135,13 +170,25 @@ export default function DashboardShell() {
                     </section>
 
                     <section
+                        id="applications"
+                        className="scroll-mt-24 rounded-3xl border border-border-color bg-white p-6 shadow-sm dark:border-dark-border-color dark:bg-slate-900/50 sm:p-8"
+                    >
+                        <MyApplications />
+                    </section>
+
+                    <section
                         id="settings"
                         className="rounded-3xl border border-border-color bg-white p-6 shadow-sm dark:border-dark-border-color dark:bg-slate-900/50 sm:p-8"
                     >
                         <h2 className="text-lg font-bold">Settings</h2>
-                        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                            Account preferences will live in this section.
-                        </p>
+                        <ProfilePicturePicker
+                            user={user}
+                            onChange={(next) => {
+                                setUser(next);
+                                setPictureFailed(false);
+                                notifyAuthChange();
+                            }}
+                        />
                     </section>
                 </main>
             </div>

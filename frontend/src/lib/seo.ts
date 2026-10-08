@@ -10,6 +10,12 @@ import { SITE_FAQ } from "@/data/seo/faq";
 import { resolveTokens } from "@/lib/legal";
 import type { LegalDocument } from "@/data/legal/types";
 import { absoluteMediaUrl } from "@/lib/site-settings";
+import { serviceHref } from "@/data/servicesData";
+import {
+    servicesInGroup,
+    visibleGroups,
+    type ServicesCatalog,
+} from "@/lib/services-catalog";
 
 /**
  * lib/seo.ts
@@ -33,6 +39,12 @@ type BuildMetadataArgs = {
     publishedTime?: string;
     modifiedTime?: string;
     config?: SiteConfig;
+    /** "article" adds og:article:* tags (author, section, tags, dates). */
+    type?: "website" | "article";
+    imageAlt?: string;
+    authors?: string[];
+    section?: string;
+    tags?: string[];
 };
 
 export function buildMetadata({
@@ -44,38 +56,51 @@ export function buildMetadata({
     publishedTime,
     modifiedTime,
     config = siteConfig,
+    type = "website",
+    imageAlt,
+    authors,
+    section,
+    tags,
 }: BuildMetadataArgs): Metadata {
     const url = absoluteUrl(path);
     const fullTitle = `${title} | ${config.name}`;
     const ogImage = absoluteMediaUrl(image ?? config.ogImage, config.url);
+    const images = [{ url: ogImage, width: 1200, height: 630, alt: imageAlt ?? title }];
 
     return {
         title,
         description,
         alternates: { canonical: url },
-        openGraph: {
-            type: "website",
-            url,
-            siteName: config.name,
-            title: fullTitle,
-            description,
-            locale: "en_US",
-            images: [
-                {
-                    url: ogImage,
-                    width: 1200,
-                    height: 630,
-                    alt: title,
-                },
-            ],
-            ...(publishedTime ? { publishedTime } : {}),
-            ...(modifiedTime ? { modifiedTime } : {}),
-        },
+        openGraph:
+            type === "article"
+                ? {
+                      type: "article",
+                      url,
+                      siteName: config.name,
+                      title: fullTitle,
+                      description,
+                      locale: "en_US",
+                      images,
+                      ...(publishedTime ? { publishedTime } : {}),
+                      ...(modifiedTime ? { modifiedTime } : {}),
+                      ...(authors?.length ? { authors } : {}),
+                      ...(section ? { section } : {}),
+                      ...(tags?.length ? { tags } : {}),
+                  }
+                : {
+                      type: "website",
+                      url,
+                      siteName: config.name,
+                      title: fullTitle,
+                      description,
+                      locale: "en_US",
+                      images,
+                  },
         twitter: {
             card: "summary_large_image",
             title: fullTitle,
             description,
-            images: [ogImage],
+            images: [{ url: ogImage, alt: imageAlt ?? title }],
         },
         robots: {
             index,
@@ -236,11 +261,46 @@ export function siteSchema(config: SiteConfig = siteConfig) {
     };
 }
 
+/**
+ * "What we do" as an OfferCatalog on the organization node — one nested
+ * catalog per category, one Offer per service page. Shares the organization
+ * @id, so crawlers merge it into the ProfessionalService entity.
+ */
+export function servicesOfferCatalogSchema(catalog: ServicesCatalog) {
+    return {
+        "@type": "ProfessionalService",
+        "@id": ORG_ID,
+        hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            "@id": absoluteUrl("/services#catalog"),
+            name: `What ${siteConfig.name} does`,
+            url: absoluteUrl("/services"),
+            itemListElement: visibleGroups(catalog).map((group) => ({
+                "@type": "OfferCatalog",
+                name: group.title,
+                description: group.blurb,
+                itemListElement: servicesInGroup(catalog, group.slug).map(
+                    (service) => ({
+                        "@type": "Offer",
+                        itemOffered: {
+                            "@type": "Service",
+                            name: service.title,
+                            description: service.summary,
+                            url: absoluteUrl(serviceHref(service.slug)),
+                        },
+                    }),
+                ),
+            })),
+        },
+    };
+}
+
 /** Homepage-only graph: the studio FAQ that AI assistants quote from. */
-export function homeSchema() {
+export function homeSchema(catalog?: ServicesCatalog) {
     return {
         "@context": "https://schema.org",
         "@graph": [
+            ...(catalog ? [servicesOfferCatalogSchema(catalog)] : []),
             faqSchema(SITE_FAQ),
             {
                 "@type": "WebPage",
@@ -304,12 +364,14 @@ export function serviceSchema(service: {
     summary: string;
     path: string;
     deliverables: string[];
+    category?: string;
 }) {
     return {
         "@type": "Service",
         "@id": absoluteUrl(`${service.path}#service`),
         name: service.title,
         serviceType: service.title,
+        ...(service.category ? { category: service.category } : {}),
         description: service.summary,
         url: absoluteUrl(service.path),
         provider: { "@id": ORG_ID },
@@ -331,6 +393,64 @@ export function serviceSchema(service: {
 }
 
 /**
+ * Structured data for one industry landing page: a `Service` aimed at a
+ * `BusinessAudience`, so a crawler can tell "web design for HVAC companies"
+ * apart from the generic web design service page.
+ */
+export function industrySchema(industry: {
+    title: string;
+    headline: string;
+    summary: string;
+    path: string;
+    audience: string[];
+    image?: string;
+    services: { name: string; path: string }[];
+}) {
+    const url = absoluteUrl(industry.path);
+
+    return {
+        "@type": "Service",
+        "@id": `${url}#service`,
+        name: industry.headline,
+        serviceType: `Web design and digital marketing for ${industry.title}`,
+        description: industry.summary,
+        url,
+        ...(industry.image
+            ? { image: absoluteMediaUrl(industry.image) }
+            : {}),
+        provider: { "@id": ORG_ID },
+        audience: {
+            "@type": "BusinessAudience",
+            name: `${industry.title} businesses`,
+            ...(industry.audience.length
+                ? { audienceType: industry.audience.join(", ") }
+                : {}),
+        },
+        areaServed: siteConfig.serviceAreas.map((name) => ({
+            "@type": "AdministrativeArea",
+            name,
+        })),
+        ...(industry.services.length
+            ? {
+                  hasOfferCatalog: {
+                      "@type": "OfferCatalog",
+                      name: `Services for ${industry.title} businesses`,
+                      itemListElement: industry.services.map((service, i) => ({
+                          "@type": "Offer",
+                          position: i + 1,
+                          itemOffered: {
+                              "@type": "Service",
+                              name: service.name,
+                              url: absoluteUrl(service.path),
+                          },
+                      })),
+                  },
+              }
+            : {}),
+    };
+}
+
+/**
  * Structured data for one blog post.
  *
  * Emits a `BlogPosting` wired to the Organization as publisher and to a Person
@@ -348,27 +468,31 @@ export function articleSchema(article: {
     image: string;
     datePublished: string;
     dateModified?: string;
-    author: { name: string; role: string };
+    author: { name: string; role: string; photo?: string };
     keywords: string[];
     section: string;
     wordCount: number;
+    readingMinutes?: number;
+    video?: ReturnType<typeof videoSchema> | null;
 }) {
     const url = absoluteUrl(article.path);
 
     return {
         "@type": "BlogPosting",
         "@id": `${url}#article`,
-        headline: article.title,
+        headline: article.title.slice(0, 110),
         description: article.description,
         url,
-        mainEntityOfPage: { "@type": "WebPage", "@id": `${url}#webpage` },
-        image: [absoluteUrl(article.image)],
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        image: [absoluteMediaUrl(article.image)],
+        thumbnailUrl: absoluteMediaUrl(article.image),
         datePublished: article.datePublished,
         dateModified: article.dateModified ?? article.datePublished,
         author: {
             "@type": "Person",
             name: article.author.name,
             jobTitle: article.author.role,
+            ...(article.author.photo ? { image: absoluteMediaUrl(article.author.photo) } : {}),
             worksFor: { "@id": ORG_ID },
         },
         publisher: { "@id": ORG_ID },
@@ -376,7 +500,29 @@ export function articleSchema(article: {
         articleSection: article.section,
         keywords: article.keywords.join(", "),
         wordCount: article.wordCount,
+        ...(article.readingMinutes ? { timeRequired: `PT${article.readingMinutes}M` } : {}),
+        ...(article.video ? { video: article.video } : {}),
         inLanguage: "en",
+    };
+}
+
+/** VideoObject for an article's featured video (YouTube, Vimeo or an uploaded file). */
+export function videoSchema(video: {
+    name: string;
+    description: string;
+    thumbnail: string;
+    uploadDate: string;
+    embedUrl?: string;
+    contentUrl?: string;
+}) {
+    return {
+        "@type": "VideoObject",
+        name: video.name,
+        description: video.description,
+        thumbnailUrl: [absoluteMediaUrl(video.thumbnail)],
+        uploadDate: video.uploadDate,
+        ...(video.embedUrl ? { embedUrl: video.embedUrl } : {}),
+        ...(video.contentUrl ? { contentUrl: video.contentUrl } : {}),
     };
 }
 
@@ -402,6 +548,43 @@ export function blogSchema(
             url: absoluteUrl(post.path),
             datePublished: post.datePublished,
         })),
+    };
+}
+
+/**
+ * A staff profile page: ProfilePage whose mainEntity is the Person. `sameAs`
+ * carries their social profiles, which is how a crawler ties the page to the
+ * same person elsewhere on the web.
+ */
+export function staffProfileSchema(person: {
+    name: string;
+    role: string;
+    path: string;
+    image?: string;
+    description?: string;
+    sameAs: string[];
+    knowsAbout: string[];
+}) {
+    const url = absoluteUrl(person.path);
+
+    return {
+        "@type": "ProfilePage",
+        "@id": `${url}#profile`,
+        url,
+        name: `${person.name} — ${person.role}`,
+        isPartOf: { "@id": SITE_ID },
+        mainEntity: {
+            "@type": "Person",
+            "@id": `${url}#person`,
+            name: person.name,
+            jobTitle: person.role,
+            url,
+            ...(person.image ? { image: absoluteMediaUrl(person.image) } : {}),
+            ...(person.description ? { description: person.description } : {}),
+            ...(person.sameAs.length ? { sameAs: person.sameAs } : {}),
+            ...(person.knowsAbout.length ? { knowsAbout: person.knowsAbout } : {}),
+            worksFor: { "@id": ORG_ID },
+        },
     };
 }
 

@@ -7,7 +7,7 @@ Two targets:
 | Frontend (static HTML/CSS/JS) | `https://prodesignity.com`     | GitHub Action → FTP → zip extract |
 | Backend (Express API)         | `https://api.prodesignity.com` | GitHub Action → SSH → pm2 + PHP proxy |
 
-**Full backend commands (proxy, MySQL, pm2, POST/file uploads):** see [`BACKEND_API_DEPLOY.md`](./BACKEND_API_DEPLOY.md).
+**Full backend commands (proxy, MySQL, pm2):** see [`../backend-api/deploy/BACKEND_API_DEPLOY.md`](../backend-api/deploy/BACKEND_API_DEPLOY.md).
 
 ---
 
@@ -124,7 +124,7 @@ Value = the absolute path from step A (example above).
 GitHub → **Actions → Deploy Backend API to Hostinger → Run workflow**  
 (optional: enable “Run prisma db push”).
 
-Later pushes to `backend/**` on `main` deploy automatically.
+Later pushes to `backend-api/**` on `main` deploy automatically.
 
 ### F. Prisma seed (dashboard login users + CMS)
 

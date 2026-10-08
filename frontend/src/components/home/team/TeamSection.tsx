@@ -1,16 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { ArrowLeft, ArrowRight, Crown } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Crown } from "lucide-react";
 
 import { HeaderPill } from "@/components/HeaderPill";
+import StaffPortrait from "@/components/team/StaffPortrait";
 import {
     TEAM_INITIAL_INDEX,
     TEAM_MEMBERS,
     type TeamMember,
 } from "@/data/teamData";
 import { mediaUrl } from "@/config/api";
+import { staffHref } from "@/lib/team-api";
 
 /**
  * Team coverflow.
@@ -57,7 +59,8 @@ export default function TeamSection({ members }: TeamSectionProps) {
         members?.length
             ? members.map((m) => ({
                   ...m,
-                  photo: mediaUrl(m.photo) ?? m.photo,
+                  photo: mediaUrl(m.photo),
+                  avatar: mediaUrl(m.avatar),
               }))
             : TEAM_MEMBERS;
     const count = roster.length;
@@ -74,10 +77,12 @@ export default function TeamSection({ members }: TeamSectionProps) {
 
     const dragStart = useRef<number | null>(null);
 
-    useEffect(() => {
-        if (!members?.length) return;
-        setActive(Math.max(members.findIndex((m) => m.lead), 0));
-    }, [members]);
+    // New roster from the API: jump to its lead (adjusting state during render, not in an effect).
+    const [prevMembers, setPrevMembers] = useState(members);
+    if (members !== prevMembers) {
+        setPrevMembers(members);
+        if (members?.length) setActive(initialIndex);
+    }
 
     const go = useCallback(
         (delta: number) => {
@@ -297,7 +302,7 @@ function TeamCard({
             {/* Gradient frame */}
             <div className="relative rounded-[30px] p-[2.5px] bg-linear-to-br from-brand-violet via-primary to-brand-blue shadow-2xl shadow-primary/25">
                 <div className="rounded-[28px] bg-white dark:bg-slate-900 overflow-hidden">
-                    <CardPhoto member={member} />
+                    <CardPhoto member={member} active={active} />
 
                     <div className="px-5 pt-4 pb-6 text-center min-h-[118px]">
                         <h3 className="text-lg sm:text-xl font-black leading-tight bg-linear-to-r from-brand-violet to-brand-blue dark:from-dark-brand-violet dark:to-dark-brand-blue bg-clip-text text-transparent">
@@ -319,7 +324,7 @@ function TeamCard({
         </div>
     ) : (
         <div className="relative rounded-[28px] border border-border-color dark:border-dark-border-color bg-white dark:bg-slate-900 overflow-hidden shadow-xl">
-            <CardPhoto member={member} />
+            <CardPhoto member={member} active={active} />
 
             <div className="px-5 pt-4 pb-6 text-center min-h-[118px]">
                 <h3 className="text-lg sm:text-xl font-black leading-tight text-slate-900 dark:text-white">
@@ -340,15 +345,14 @@ function TeamCard({
     );
 }
 
-function CardPhoto({ member }: { member: TeamMember }) {
+function CardPhoto({ member, active }: { member: TeamMember; active: boolean }) {
     return (
         <div className="relative aspect-4/5 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-            <Image
-                src={member.photo}
+            <StaffPortrait
+                member={member}
                 alt={`${member.name}, ${member.role}`}
-                fill
                 sizes="(max-width: 640px) 220px, (max-width: 768px) 260px, 290px"
-                className="object-cover"
+                initialsClassName="text-6xl"
                 draggable={false}
             />
 
@@ -361,6 +365,21 @@ function CardPhoto({ member }: { member: TeamMember }) {
                     Founder
                 </span>
             ) : null}
+
+            <Link
+                href={staffHref(member)}
+                tabIndex={active ? 0 : -1}
+                aria-hidden={!active}
+                onPointerDown={(e) => e.stopPropagation()}
+                className={`absolute bottom-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full bg-white/90 dark:bg-slate-900/90 px-3.5 py-1.5 text-[11px] font-bold text-slate-900 dark:text-white shadow-lg backdrop-blur transition-all duration-300 hover:bg-white dark:hover:bg-slate-900 ${
+                    active
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-2 pointer-events-none"
+                }`}
+            >
+                View profile
+                <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
         </div>
     );
 }

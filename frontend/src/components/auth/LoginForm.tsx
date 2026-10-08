@@ -1,173 +1,192 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react";
-import { getAuthUser, setAuthUser } from "@/lib/auth";
+import { Loader2, ShieldCheck } from "lucide-react";
+import { getCurrentUser, signInWithGoogle } from "@/lib/auth";
+import { getGoogleClientId } from "@/lib/site-settings";
 import { siteConfig } from "@/config/site";
 import GoogleIcon from "@/components/auth/GoogleIcon";
 
+const GSI_SRC = "https://accounts.google.com/gsi/client";
+
+let gsiPromise: Promise<void> | null = null;
+
+function loadGoogleIdentity(): Promise<void> {
+    if (window.google?.accounts?.id) return Promise.resolve();
+    gsiPromise ??= new Promise<void>((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = GSI_SRC;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => resolve();
+        script.onerror = () => {
+            gsiPromise = null;
+            reject(new Error("Could not load Google sign-in"));
+        };
+        document.head.appendChild(script);
+    });
+    return gsiPromise;
+}
+
+/** Client login: Google only. */
 export default function LoginForm() {
     const router = useRouter();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+    const buttonRef = useRef<HTMLDivElement>(null);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [googleLoading, setGoogleLoading] = useState(false);
+    const [status, setStatus] = useState<"loading" | "ready" | "signing-in" | "unavailable">(
+        "loading",
+    );
 
     useEffect(() => {
-        if (getAuthUser()) {
-            router.replace(siteConfig.dashboardPath);
-        }
+        let cancelled = false;
+        getCurrentUser().then((user) => {
+            if (user && !cancelled) router.replace(siteConfig.dashboardPath);
+        });
+        return () => {
+            cancelled = true;
+        };
     }, [router]);
 
-    const goToDashboard = () => {
-        router.push(siteConfig.dashboardPath);
-    };
+    const handleCredential = useCallback(
+        async ({ credential }: GoogleCredentialResponse) => {
+            setError("");
+            setStatus("signing-in");
+            try {
+                await signInWithGoogle(credential);
+                router.push(siteConfig.dashboardPath);
+            } catch (err) {
+                setError((err as Error).message);
+                setStatus("ready");
+            }
+        },
+        [router],
+    );
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        setError("");
-        setLoading(true);
+    useEffect(() => {
+        let cancelled = false;
 
-        if (!email.trim() || password.length < 4) {
-            setError("Enter a valid email and a password (min 4 characters).");
-            setLoading(false);
-            return;
-        }
+        getGoogleClientId()
+            .then(async (clientId) => {
+                if (!clientId) {
+                    if (!cancelled) setStatus("unavailable");
+                    return;
+                }
+                await loadGoogleIdentity();
+                const container = buttonRef.current;
+                const gsi = window.google?.accounts.id;
+                if (cancelled || !container || !gsi) return;
 
-        const name = email.split("@")[0] || "User";
-        setAuthUser({
-            email: email.trim().toLowerCase(),
-            name: name.charAt(0).toUpperCase() + name.slice(1),
-            provider: "email",
-        });
+                gsi.initialize({
+                    client_id: clientId,
+                    callback: (response) => void handleCredential(response),
+                    ux_mode: "popup",
+                    context: "signin",
+                    auto_select: false,
+                    cancel_on_tap_outside: true,
+                    itp_support: true,
+                    use_fedcm_for_prompt: true,
+                });
+                gsi.renderButton(container, {
+                    type: "standard",
+                    theme: "outline",
+                    size: "large",
+                    text: "continue_with",
+                    shape: "rectangular",
+                    logo_alignment: "center",
+                    width: Math.min(Math.max(container.offsetWidth, 240), 400),
+                });
+                setStatus("ready");
+            })
+            .catch((err: Error) => {
+                if (cancelled) return;
+                setError(err.message);
+                setStatus("unavailable");
+            });
 
-        goToDashboard();
-    };
-
-    const handleGoogleLogin = () => {
-        setError("");
-        setGoogleLoading(true);
-
-        // Placeholder Google provider until OAuth credentials are wired.
-        setAuthUser({
-            email: "user@gmail.com",
-            name: "Google User",
-            provider: "google",
-        });
-
-        goToDashboard();
-    };
+        return () => {
+            cancelled = true;
+        };
+    }, [handleCredential]);
 
     return (
-        <div className="space-y-5">
-            <button
-                type="button"
-                onClick={handleGoogleLogin}
-                disabled={googleLoading || loading}
-                className="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-border-color bg-white px-5 py-3.5 text-sm font-semibold text-slate-800 shadow-sm transition-all hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70 dark:border-dark-border-color dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+        <div className="space-y-6">
+            <div
+                className={`group relative h-12 overflow-hidden rounded-xl ${
+                    status === "ready" ? "cursor-pointer" : "cursor-not-allowed"
+                }`}
             >
-                <GoogleIcon className="h-5 w-5 shrink-0" />
-                {googleLoading ? "Connecting Google…" : "Continue with Google"}
-            </button>
-
-            <div className="flex items-center gap-3">
-                <div className="h-px flex-1 bg-border-color dark:bg-dark-border-color" />
-                <span className="text-xs font-semibold tracking-wider text-slate-400 uppercase">
-                    or
-                </span>
-                <div className="h-px flex-1 bg-border-color dark:bg-dark-border-color" />
+                {/* Our styled face; the real Google button sits invisibly on top and takes the click. */}
+                <div
+                    className={`flex h-full w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white px-5 text-[15px] font-semibold text-slate-800 shadow-sm transition-all duration-200 dark:border-white/10 dark:bg-white/[0.04] dark:text-white ${
+                        status === "ready"
+                            ? "group-hover:border-primary/40 group-hover:shadow-md group-hover:shadow-primary/10 group-focus-within:border-primary group-focus-within:ring-2 group-focus-within:ring-primary/30 dark:group-hover:border-white/25 dark:group-hover:bg-white/[0.08]"
+                            : status === "unavailable"
+                              ? "opacity-60"
+                              : ""
+                    }`}
+                >
+                    {status === "loading" || status === "signing-in" ? (
+                        <Loader2
+                            className="h-5 w-5 shrink-0 animate-spin text-slate-400"
+                            aria-hidden="true"
+                        />
+                    ) : (
+                        <GoogleIcon className="h-5 w-5 shrink-0" />
+                    )}
+                    <span role="status">
+                        {status === "signing-in"
+                            ? "Signing you in…"
+                            : status === "loading"
+                              ? "Loading Google sign-in…"
+                              : "Continue with Google"}
+                    </span>
+                </div>
+                <div
+                    ref={buttonRef}
+                    className={`absolute inset-0 flex items-center justify-center opacity-[0.01] [&>div]:scale-[1.3] ${
+                        status === "ready" ? "" : "pointer-events-none"
+                    }`}
+                />
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                    <label
-                        htmlFor="email"
-                        className="mb-2 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300"
-                    >
-                        Email
-                    </label>
-                    <div className="relative">
-                        <Mail className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                        <input
-                            id="email"
-                            type="email"
-                            required
-                            autoComplete="email"
-                            placeholder="you@company.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full rounded-xl border border-border-color bg-slate-50 py-3.5 pr-4 pl-11 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:ring-2 focus:ring-primary focus:outline-none dark:border-dark-border-color dark:bg-slate-900/90 dark:text-white dark:focus:ring-dark-primary"
-                        />
-                    </div>
-                </div>
+            {status === "unavailable" && !error ? (
+                <p className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-center text-sm text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300">
+                    {process.env.NODE_ENV === "development"
+                        ? "Add a Google client ID in the admin dashboard (Settings → Google sign-in) to enable sign-in."
+                        : "Google sign-in is temporarily unavailable. Please try again later."}
+                </p>
+            ) : null}
 
-                <div>
-                    <label
-                        htmlFor="password"
-                        className="mb-2 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300"
-                    >
-                        Password
-                    </label>
-                    <div className="relative">
-                        <Lock className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                        <input
-                            id="password"
-                            type={showPassword ? "text" : "password"}
-                            required
-                            autoComplete="current-password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full rounded-xl border border-border-color bg-slate-50 py-3.5 pr-12 pl-11 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:ring-2 focus:ring-primary focus:outline-none dark:border-dark-border-color dark:bg-slate-900/90 dark:text-white dark:focus:ring-dark-primary"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword((v) => !v)}
-                            className="absolute top-1/2 right-3.5 -translate-y-1/2 text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-slate-200"
-                            aria-label={
-                                showPassword ? "Hide password" : "Show password"
-                            }
-                        >
-                            {showPassword ? (
-                                <EyeOff className="h-4 w-4" />
-                            ) : (
-                                <Eye className="h-4 w-4" />
-                            )}
-                        </button>
-                    </div>
-                </div>
-
-                {error ? (
-                    <p
-                        role="alert"
-                        className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300"
-                    >
-                        {error}
-                    </p>
-                ) : null}
-
-                <button
-                    type="submit"
-                    disabled={loading || googleLoading}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-brand-violet to-brand-blue px-5 py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:from-primary-hover hover:to-brand-blue disabled:cursor-not-allowed disabled:opacity-70 dark:from-dark-brand-violet dark:to-dark-brand-blue"
+            {error ? (
+                <p
+                    role="alert"
+                    className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-center text-sm text-red-600 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300"
                 >
-                    {loading ? "Signing in…" : "Sign in to dashboard"}
-                    {!loading ? <ArrowRight className="h-4 w-4" /> : null}
-                </button>
-            </form>
+                    {error}
+                </p>
+            ) : null}
 
-            <p className="text-center text-sm text-slate-500 dark:text-slate-400">
-                Back to{" "}
+            <p className="flex items-start gap-2.5 rounded-2xl border border-emerald-500/15 bg-emerald-500/5 px-4 py-3 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+                We only receive your name, email and profile photo from Google. No password is
+                stored with us.
+            </p>
+
+            <p className="text-center text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                By continuing you agree to our{" "}
+                <Link href="/terms" className="font-semibold text-slate-700 hover:text-primary dark:text-slate-300 dark:hover:text-dark-primary">
+                    Terms
+                </Link>{" "}
+                and{" "}
                 <Link
-                    href="/"
-                    className="font-semibold text-primary hover:underline dark:text-dark-primary"
+                    href="/privacy-policy"
+                    className="font-semibold text-slate-700 hover:text-primary dark:text-slate-300 dark:hover:text-dark-primary"
                 >
-                    homepage
+                    Privacy Policy
                 </Link>
+                .
             </p>
         </div>
     );

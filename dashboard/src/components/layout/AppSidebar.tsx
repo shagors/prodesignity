@@ -7,12 +7,16 @@ import {
   UsersIcon,
   UsersRoundIcon,
   BriefcaseIcon,
+  ContactRoundIcon,
+  InboxIcon,
   UserRoundIcon,
   SettingsIcon,
+  NewspaperIcon,
+  FactoryIcon,
 } from "lucide-react";
 import type { DashboardUser } from "@/lib/session";
 import { BrandLogo } from "@/components/BrandLogo";
-import { mediaUrl } from "@/config";
+import { UserAvatar } from "@/components/UserAvatar";
 import {
   Sidebar,
   SidebarContent,
@@ -26,7 +30,6 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
 type NavItem = {
@@ -40,15 +43,6 @@ type AppSidebarProps = {
   onLogout: () => void;
 };
 
-function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? "")
-    .join("");
-}
-
 export function AppSidebar({ user, onLogout }: AppSidebarProps) {
   const location = useLocation();
   const isAdmin = user.role === "admin";
@@ -60,13 +54,18 @@ export function AppSidebar({ user, onLogout }: AppSidebarProps) {
         { title: "Overview", to: "/admin", icon: LayoutDashboardIcon },
         { title: "Homepage", to: "/admin/homepage", icon: LayoutTemplateIcon },
         { title: "Services", to: "/admin/services", icon: BriefcaseIcon },
+        { title: "Industries", to: "/admin/industries", icon: FactoryIcon },
+        { title: "Blog", to: "/admin/blog", icon: NewspaperIcon },
+        { title: "Careers", to: "/admin/careers", icon: InboxIcon },
         { title: "Team", to: "/admin/team", icon: UsersRoundIcon },
         { title: "Staff", to: "/admin/staff", icon: UsersIcon },
+        { title: "Users", to: "/admin/users", icon: ContactRoundIcon },
         { title: "Settings", to: "/admin/settings", icon: SettingsIcon },
         { title: "Profile", to: profilePath, icon: UserRoundIcon },
       ]
     : [
         { title: "Dashboard", to: "/employee", icon: BriefcaseIcon },
+        { title: "My articles", to: "/employee/blog", icon: NewspaperIcon },
         {
           title: "Public profile",
           to: "/employee/public-profile",
@@ -122,17 +121,7 @@ export function AppSidebar({ user, onLogout }: AppSidebarProps) {
       <SidebarFooter className="gap-2 px-2 pb-3">
         <Separator />
         <div className="flex items-center gap-2 rounded-lg px-2 py-2 group-data-[collapsible=icon]:justify-center">
-          <Avatar className="size-8">
-            {mediaUrl(user.photo?.url) ? (
-              <AvatarImage
-                src={mediaUrl(user.photo?.url)}
-                alt={user.fullName}
-              />
-            ) : null}
-            <AvatarFallback className="text-xs">
-              {initials(user.fullName)}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar account={user} />
           <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
             <p className="truncate text-sm font-medium">{user.fullName}</p>
             <p className="truncate text-xs text-muted-foreground">

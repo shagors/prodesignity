@@ -3,16 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+
+const noopSubscribe = () => () => {};
 
 export default function Logo() {
     const { theme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    // false during the static/SSR render, true once hydrated (theme is only known on the client).
+    const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
     if (!mounted) {
         return <div className="h-10 w-[160px]" />;
@@ -33,7 +32,7 @@ export default function Logo() {
                         >
                             <Image
                                 src="/assets/logo/prodesignity-logo-dark.png"
-                                width={160}
+                                width={125}
                                 height={40}
                                 alt="ProDesignity Logo"
                                 className="h-full w-auto object-contain"
@@ -51,7 +50,7 @@ export default function Logo() {
                         >
                             <Image
                                 src="/assets/logo/prodesignity-logo-light.svg"
-                                width={160}
+                                width={125}
                                 height={40}
                                 alt="ProDesignity Logo"
                                 className="h-full w-auto object-contain"

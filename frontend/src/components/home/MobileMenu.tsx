@@ -9,14 +9,28 @@
  * menus cannot drift apart.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
+import {
+    Menu,
+    X,
+    ArrowRight,
+    ChevronDown,
+    LayoutDashboard,
+    LogOut,
+} from "lucide-react";
 
 import ServiceIcon from "@/components/ServiceIcon";
-import { SERVICE_MENU, SERVICES_BASE_PATH } from "@/data/servicesData";
+import { AccountAvatar } from "@/components/home/HeaderAccount";
+import { signOut } from "@/lib/auth";
+import { useCurrentUser } from "@/lib/useCurrentUser";
+import { SERVICES_BASE_PATH } from "@/data/servicesData";
+import { buildIndustryMenu } from "@/lib/industries-catalog";
+import { buildServiceMenu } from "@/lib/services-catalog";
+import { useIndustries } from "@/lib/useIndustries";
+import { useServicesCatalog } from "@/lib/useServicesCatalog";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import type { NavLink } from "@/components/home/nav/DesktopNav";
@@ -26,6 +40,15 @@ export default function MobileMenu({ navLinks }: { navLinks: NavLink[] }) {
     const [isOpen, setIsOpen] = useState(false);
     const [openGroup, setOpenGroup] = useState<string | null>(null);
     const [servicesOpen, setServicesOpen] = useState(false);
+    const [industriesOpen, setIndustriesOpen] = useState(false);
+    const user = useCurrentUser();
+    const catalog = useServicesCatalog();
+    const serviceMenu = useMemo(() => buildServiceMenu(catalog), [catalog]);
+    const industries = useIndustries();
+    const industryMenu = useMemo(
+        () => buildIndustryMenu(industries),
+        [industries],
+    );
 
     /**
      * Soft navigation leaves this component mounted, so the drawer has to be
@@ -92,6 +115,96 @@ export default function MobileMenu({ navLinks }: { navLinks: NavLink[] }) {
                                     );
                                 }
 
+                                if (link.mega === "industries") {
+                                    return (
+                                        <div
+                                            key={link.name}
+                                            className="space-y-1"
+                                        >
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    setIndustriesOpen((v) => !v)
+                                                }
+                                                aria-expanded={industriesOpen}
+                                                className="w-full flex items-center justify-between px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 rounded-xl transition-all"
+                                            >
+                                                {link.name}
+                                                <ChevronDown
+                                                    className={cn(
+                                                        "w-4 h-4 transition-transform",
+                                                        industriesOpen &&
+                                                            "rotate-180",
+                                                    )}
+                                                    aria-hidden="true"
+                                                />
+                                            </button>
+
+                                            <AnimatePresence initial={false}>
+                                                {industriesOpen && (
+                                                    <motion.div
+                                                        initial={{
+                                                            height: 0,
+                                                            opacity: 0,
+                                                        }}
+                                                        animate={{
+                                                            height: "auto",
+                                                            opacity: 1,
+                                                        }}
+                                                        exit={{
+                                                            height: 0,
+                                                            opacity: 0,
+                                                        }}
+                                                        transition={{
+                                                            duration: 0.22,
+                                                        }}
+                                                        className="overflow-hidden pl-2 border-l border-border-color dark:border-dark-border-color ml-4"
+                                                    >
+                                                        <ul className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-0.5">
+                                                            {industryMenu.map(
+                                                                (item) => (
+                                                                    <li
+                                                                        key={
+                                                                            item.slug
+                                                                        }
+                                                                    >
+                                                                        <Link
+                                                                            href={
+                                                                                item.href
+                                                                            }
+                                                                            onClick={
+                                                                                close
+                                                                            }
+                                                                            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-dark-primary hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+                                                                        >
+                                                                            <ServiceIcon
+                                                                                name={
+                                                                                    item.icon
+                                                                                }
+                                                                                className="w-3.5 h-3.5 shrink-0 text-primary dark:text-dark-primary"
+                                                                            />
+                                                                            {
+                                                                                item.title
+                                                                            }
+                                                                        </Link>
+                                                                    </li>
+                                                                ),
+                                                            )}
+                                                        </ul>
+                                                        <Link
+                                                            href={link.href}
+                                                            onClick={close}
+                                                            className="block px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider text-primary dark:text-dark-primary hover:bg-primary/10 transition-colors"
+                                                        >
+                                                            View all industries
+                                                        </Link>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </div>
+                                    );
+                                }
+
                                 return (
                                     <div key={link.name} className="space-y-1">
                                         <button
@@ -133,7 +246,7 @@ export default function MobileMenu({ navLinks }: { navLinks: NavLink[] }) {
                                                     }}
                                                     className="overflow-hidden pl-2 border-l border-border-color dark:border-dark-border-color ml-4 space-y-1"
                                                 >
-                                                    {SERVICE_MENU.map(
+                                                    {serviceMenu.map(
                                                         (group) => {
                                                             const expanded =
                                                                 openGroup ===
@@ -256,13 +369,53 @@ export default function MobileMenu({ navLinks }: { navLinks: NavLink[] }) {
                         </nav>
 
                         <div className="pt-2 space-y-2">
-                            <Link
-                                href={siteConfig.loginPath}
-                                onClick={close}
-                                className="flex items-center justify-center w-full py-3 rounded-xl font-semibold text-slate-700 dark:text-slate-200 border border-border-color dark:border-dark-border-color hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
-                            >
-                                Login
-                            </Link>
+                            {user ? (
+                                <div className="rounded-xl border border-border-color dark:border-dark-border-color p-3">
+                                    <div className="flex items-center gap-3">
+                                        <AccountAvatar
+                                            user={user}
+                                            className="h-10 w-10"
+                                        />
+                                        <div className="min-w-0">
+                                            <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
+                                                {user.name}
+                                            </p>
+                                            <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                                                {user.email}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="mt-3 grid grid-cols-2 gap-2">
+                                        <Link
+                                            href={siteConfig.dashboardPath}
+                                            onClick={close}
+                                            className="flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+                                        >
+                                            <LayoutDashboard className="w-4 h-4" />
+                                            Dashboard
+                                        </Link>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                close();
+                                                void signOut();
+                                            }}
+                                            className="flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
+                                        >
+                                            <LogOut className="w-4 h-4" />
+                                            Log out
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <Link
+                                    href={siteConfig.loginPath}
+                                    onClick={close}
+                                    className="flex items-center justify-center w-full py-3 rounded-xl font-semibold text-slate-700 dark:text-slate-200 border border-border-color dark:border-dark-border-color hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+                                >
+                                    Login
+                                </Link>
+                            )}
                             <Link
                                 href={`${siteConfig.contactPath}/#book-a-call`}
                                 onClick={close}

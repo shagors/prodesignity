@@ -62,6 +62,14 @@ export const IMAGE_SPECS = {
     formats: "JPEG / PNG / WebP",
     note: "portrait 4:5",
   },
+  teamAvatar: {
+    label: "Avatar",
+    width: 512,
+    height: 512,
+    maxMb: 5,
+    formats: "PNG / WebP / JPEG",
+    note: "square — illustration or 3D avatar",
+  },
   projectThumb: {
     label: "Project thumbnail",
     width: 1280,
@@ -85,6 +93,14 @@ export const IMAGE_SPECS = {
     maxMb: 5,
     formats: "JPEG / PNG / WebP",
     note: "square",
+  },
+  industryHero: {
+    label: "Industry hero image",
+    width: 1600,
+    height: 1200,
+    maxMb: 5,
+    formats: "JPEG / PNG / WebP",
+    note: "4:3 — shown beside the page heading",
   },
   homepageImage: {
     label: "Homepage image",

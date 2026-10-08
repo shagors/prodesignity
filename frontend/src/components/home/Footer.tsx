@@ -11,7 +11,9 @@ const serviceLinks = [
 
 const companyLinks = [
     { name: "About ProDesignity", href: "/about" },
+    { name: "Our Team", href: "/team" },
     { name: "Services Portfolio", href: "/services" },
+    { name: "Industries We Serve", href: "/industries" },
     { name: "Journal", href: "/blog" },
     { name: "Contact & Inquiries", href: siteConfig.contactPath },
     { name: "Careers", href: "/careers" },
@@ -136,12 +138,14 @@ export default function Footer() {
                         >
                             Privacy Policy
                         </Link>
-                        <a
+                        <Link
                             href={adminLoginHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="hover:text-slate-600 dark:hover:text-slate-300 transition"
                         >
                             Admin Login
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

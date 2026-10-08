@@ -88,6 +88,8 @@ export type BlogBlock =
      * placeholder rather than a blank gap — see SmartImage.
      */
     | { type: "image"; src: string; alt: string; caption?: string }
+    /** Uploaded MP4/WebM/MOV, or a YouTube / Vimeo link. */
+    | { type: "video"; src: string; title?: string; caption?: string }
     | { type: "stats"; items: { value: string; label: string }[] }
     | { type: "divider" };
 
@@ -101,6 +103,8 @@ export interface BlogAuthor {
     role: string;
     /** Path under /public. Falls back to initials when missing or broken. */
     photo?: string;
+    /** Team profile slug → the byline links to /team/<slug>. */
+    slug?: string;
 }
 
 export interface BlogFaq {
@@ -117,6 +121,9 @@ export interface BlogPost {
     excerpt: string;
     /** Free text. The filter chips on /blog are derived from these. */
     category: string;
+    /** Set for dashboard posts: the category's slug and optional icon. */
+    categorySlug?: string;
+    categoryIcon?: string;
     accent: BlogAccentName;
     icon: ServiceIconName;
     /**
@@ -126,6 +133,8 @@ export interface BlogPost {
      */
     cover?: string;
     coverAlt?: string;
+    /** Featured video under the cover: uploaded file or YouTube / Vimeo link. */
+    video?: string;
     /** ISO date (YYYY-MM-DD). Drives sort order and datePublished. */
     publishedAt: string;
     /** ISO date. Drives "Updated" and dateModified. */
